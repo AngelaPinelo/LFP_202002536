@@ -1,15 +1,6 @@
 import re
-#from typing import Tuple 
-
-
-#c= Aplicacion ()
-
-
-
 tokens=[]
 
-
-#token_mes: [a-zA-Z]+
 #ANÁLISIS LÉXICO
 def AnalisiLexico(text):
     temp_anterior="" 
@@ -141,7 +132,106 @@ def AnalisiLexico(text):
                     pass
                 else:   
                     pass     
-    print (tokens)
+    #print (tokens)
+    Analizador_sintactico()
+'''incio = Token_mes Token_pts Token_precent Token_eq Token_pa productos token_pc
+ptoductos = token_ca token_profucto token_coma num token_coma token_precent token_cc token_semi proctos'
+productos' = ptoductos  | nada
+num = token_precent | token_decimal'''
+ 
+
+
+def Analizador_sintactico():
+    global Nombre_mes
+    global year
+  
+    if(tokens[0][0] == "token_mes"):
+        Nombre_mes = tokens[0][1]
+        tokens.pop(0)
+
+        if(tokens[0][0] == "token_pts"):
+            tokens.pop(0)
+
+            if(tokens[0][0] == "token_precent"):
+                year= tokens[0][1]
+                tokens.pop(0)
+
+                if(tokens[0][0] == "token_eq"):
+                    tokens.pop(0)
+
+                    if(tokens[0][0] == "token_pa"):
+                        tokens.pop(0)
+                        productos()
+
+        '''incio =    productos 
+ptoductos =  proctos'
+productos' = ptoductos  | nada
+'''
+              
+productos = []
+def productos():
+    producto
+    precio
+    unidades
+    ganancias
+ 
+    while(True):
+        temp = []
+        if(tokens[0][0] == "token_ca"):
+            tokens.pop(0)
+
+            if(tokens[0][0] == "token_profucto"):
+                producto =[0][1]
+                tokens.pop(0)
+
+                if(tokens[0][0] == "token_coma"):
+                    tokens.pop(0)
+
+                    if(tokens[0][0] == "token_precent"):
+                        precio = tokens[0][1]
+                        tokens.pop(0)
+
+                    elif(tokens[0][0] == "token_decimal"):
+                        precio = tokens[0][1]
+                        tokens.pop(0)
+
+                        if(tokens[0][0] == "token_pa"):
+                            tokens.pop(0)
+
+                            if(tokens[0][0] == "token_coma"):
+                                tokens.pop(0)
+
+                                if(tokens[0][0] == "token_precent"):
+                                    unidades = tokens[0][1]
+                                    ganancias = precio * unidades
+                                    tokens.pop(0)
+
+                                    if(tokens[0][0] == "token_cc"):
+                                        tokens.pop(0)
+
+                                        if(tokens[0][0] == "token_semi"):
+                                            tokens.pop(0)
+                                            temp.append(producto)
+                                            temp.append(ganancias)
+                                            productos.append(temp)
+
+                                            if(tokens[0][0] == "token_pc"):
+                                                break
+    print(productos)
+                                            
+                                            
+
+                                    
+
+
+                                          
+
+
+
+                     
+
+
+      
 
 def UbicarToken(texto):
     pass

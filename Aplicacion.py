@@ -1,19 +1,17 @@
-from prueba import AnalisiLexico 
+from AV import AnalisiLexico 
+from AI import Analizador2
 from tkinter import *
 from tkinter import ttk
 from tkinter import filedialog 
 
-
+op = Analizador2()
 def LeerArchivoVentas ():
     text =  filedialog.askopenfilename(initialdir="c:/", title="Escoge un archivo", filetypes= (("data files" ,"*.data"),("all files", "*.*")))
-    print (text)
     archivo = open (text, 'r')
     global contenido
     contenido = archivo.read()
-    print (contenido)
     archivo.close
     return contenido 
-
 
 class Aplicacion:
     
@@ -34,7 +32,7 @@ Selecciona una opcion: ''')
                 LeerArchivoVentas()
                 AnalisiLexico(contenido)
             elif res == '2':
-                pass
+                op.LeerArchivoInstrucciones()
             elif res == '3':
                 pass
             elif res == '4':
