@@ -1,17 +1,11 @@
-from AV import AnalisiLexico 
-from AI import Analizador2
+from AV2 import Analizador1
+from AV2 import Analizador2
 from tkinter import *
-from tkinter import ttk
-from tkinter import filedialog 
 
+
+#op por operación xd 
+ap=Analizador1()
 op = Analizador2()
-def LeerArchivoVentas ():
-    text =  filedialog.askopenfilename(initialdir="c:/", title="Escoge un archivo", filetypes= (("data files" ,"*.data"),("all files", "*.*")))
-    archivo = open (text, 'r')
-    global contenido
-    contenido = archivo.read()
-    archivo.close
-    return contenido 
 
 class Aplicacion:
     
@@ -29,19 +23,23 @@ class Aplicacion:
 Selecciona una opcion: ''')
                 #switch
             if res == '1':
-                LeerArchivoVentas()
-                AnalisiLexico(contenido)
+                ap.LeerArchivoVentas2()
+                ap.AnalisiLexico()
+                ap.Analizador_sintactico()
+                ap.Productos()
             elif res == '2':
                 op.LeerArchivoInstrucciones()
+                op.AnalizarInstrucciones()
             elif res == '3':
-                pass
+                op.Graficador()
             elif res == '4':
                 pass
             elif res == '5':
                 print("Adios")
                 break
-           # else:
-               # print ("Por favor ingrese una opción valida >:( ")
+            else:
+                
+                print ("Por favor ingrese una opción valida >:( ")
                 
 b = Aplicacion()
 
