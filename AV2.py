@@ -447,9 +447,8 @@ class Analizador2():
     def __init__(self):
         #contiene todo el texto de los datos
         self.texto = ""
-        self.id_instr = 1
-        #instrucciones
-        self.instr = {}
+        #instrucciones almacenadas en un diccionario
+        self.instrucciones = {}
         
    
     #para leer los archivos .lfp
@@ -468,7 +467,7 @@ class Analizador2():
         #sonnic representa mi índice que recorre el archivo
         for sonnic in contenido2:
             if sonnic != '"':
-                if (sonnic != " " and sonnic != "\n" and sonnic != "\t") or com:
+                if ( sonnic != "\n" and sonnic != "\t" and sonnic != " ") or com:
                     delimitadores += sonnic
             elif not com:
                 delimitadores += sonnic
@@ -485,12 +484,13 @@ class Analizador2():
 
         #para analizar mis intrucciones 
     def AnalizarInstrucciones(self):
-        cadena = self.texto
+        #tal cual las instrucciones que ingresan
+        instruccioness = self.texto
         #los primeros 2 caracteres
-        ini = cadena[0:2]
-        a = len(cadena) - 3 # El tamaño de los datos menos los últimos 3 
-        b = len(cadena)
-        fin = cadena[a:b]
+        ini = instruccioness[0:2]
+        a = len(instruccioness) - 3 # El tamaño de los datos menos los últimos 3 dentro del archivo
+        b = len(instruccioness)
+        fin = instruccioness[a:b]
 
         caso = 0
         entry = False
@@ -499,17 +499,17 @@ class Analizador2():
         aux = {}
         if ini == "<¿" and fin == '\"?>':
             #con esto quito los primero dos caracteres (<¿)
-            cadena = cadena[2:]
+            instruccioness = instruccioness[2:]
             #con esto quito los últimos dos caracteres (?>)
-            cadena = cadena[:-2]
+            instruccioness = instruccioness[:-2]
             #$ me va a servir para saber donde acabo el archivo porque se lo voy agregando al final 
-            cadena += "$"
+            instruccioness += "$"
             #la instrucción del lado izquierdo
             comando = ""
             #el nombre de la instrucción del lado derecho 
             nombre = ""
             #sonnic representa a mi variable letra 
-            for sonnic in cadena:
+            for sonnic in instruccioness:
                 if sonnic != ":" and caso == 0:
                     comando += sonnic
                 elif sonnic == ":":
@@ -548,8 +548,8 @@ class Analizador2():
             #porque nombre y gráfica son obligatorios
             #si los comandos nombre y grafica vienen ya almacenados en aux 
             if 'nombre' in aux and 'grafica' in aux:
-                self.instr = aux
-                print(self.instr)
+                self.instrucciones = aux
+                print(self.instrucciones)
             else:
                 print("Error, no se puede almacenar esta informacion, faltan datos")                    
 
@@ -557,16 +557,16 @@ class Analizador2():
             print("Error, no se puede leer este archivo")
     #@property
     '''def get_Instrucciones(self):
-        return self.instr'''
+        return self.instrucciones'''
     
     '''@Instrucciones.setter
     def Instucciones(self,listaInstrucciones):
-        self.instr = listaInstrucciones'''
+        self.instrucciones = listaInstrucciones'''
 
     def Graficador(self):
-        tipo =self.instr
+        tipo =self.instrucciones
         if tipo.get('grafica') == "barras":
-            datos=self.instr
+            datos=self.instrucciones
             eje_x =listax  
             eje_y =listay 
             plt.bar(eje_x, eje_y)
@@ -576,7 +576,7 @@ class Analizador2():
             plt.savefig(datos.get('nombre'))
             plt.show()
         elif tipo.get('grafica') == "líneas" or tipo.get('grafica') == "lineas" or tipo.get('grafica') == "lneas":
-            datos=self.instr
+            datos=self.instrucciones
             eje_x =listax  
             eje_y =listay 
             plt.plot(eje_x, eje_y, marker='o', linestyle='--', color='g', label ='Total de ingresos en el mes')
@@ -586,7 +586,7 @@ class Analizador2():
             plt.savefig(datos.get('nombre'))
             plt.show()
         elif tipo.get('grafica') == "pie" or tipo.get('grafica') == "pastel":
-            datos=self.instr
+            datos=self.instrucciones
             eje_y =listax  
             #eje_y =listay
             eje_x= np.array(listay)

@@ -17,7 +17,7 @@ class Aplicacion:
             res = input('''
 1. Cargar Archivo de Ventas
 2. Cargar Instrucciones
-3. Analizar
+3. Analizar con Gráficas
 4. Generar reportes
 5. Salir
 Selecciona una opcion: ''')
@@ -28,7 +28,6 @@ Selecciona una opcion: ''')
                 ap.Analizador_sintactico()
                 ap.Productos()
                 ap.Ordenar()
-                #ap.Ordenar_en_base()
             elif res == '2':
                 op.LeerArchivoInstrucciones()
                 op.AnalizarInstrucciones()
@@ -39,7 +38,7 @@ Selecciona una opcion: ''')
                 ap.TextoReportes()
                 ap.crearReporte()
             elif res == '5':
-                print("Adios")
+                print("Adios, Gracias por usar nuestro sistema")
                 break
             else:
                 
