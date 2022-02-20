@@ -13,6 +13,8 @@ global listax
 listax = []
 global listay
 listay= []
+global gananciass
+gananciass=[]
 class Analizador1():
     
     def __init__ (self):
@@ -20,9 +22,7 @@ class Analizador1():
         self.prod = []
         self.gananciass=[]
         self.encabezados=[]
-        
-        
-   
+
     def LeerArchivoVentas2 (self):
         text =  filedialog.askopenfilename(initialdir="c:/", title="Escoge un archivo", filetypes= (("data files" ,"*.data"),("all files", "*.*")))
         archivo = open (text, 'r')
@@ -172,6 +172,10 @@ class Analizador1():
     
     def Analizador_sintactico(self):
         temp1=[]
+        global unidades2 
+        unidades2=[]
+        global precios
+        precios=[]
         global Nombre_mes
         global year
         #para quitar el "token_mes" y que solo se quede el nombre del mes 
@@ -222,6 +226,7 @@ class Analizador1():
     #Guardando el precio y casteado a float para después multiplicarlo 
                         if(tokens[0][0] == "token_precent" or tokens[0][0] == "token_decimal"):
                             precio = float(tokens[0][1])
+                            precios.append(precio)
                             tokens.pop(0)
 
                             if(tokens[0][0] == "token_coma"):
@@ -229,7 +234,9 @@ class Analizador1():
 
                                 if(tokens[0][0] == "token_precent"):
                                     unidades = float(tokens[0][1])
+                                    unidades2.append(float(tokens[0][1]))
                                     ganancias = precio * unidades
+                                    gananciass.append(ganancias)
                                     tokens.pop(0)
 
                                     if(tokens[0][0] == "token_cc"):
@@ -242,23 +249,198 @@ class Analizador1():
                                             productos.append(temp2)
 
                                             if(tokens[0][0] == "token_pc"):
-                                                break
-                                
-                                            
+                                                break                                                                            
     #para que me separe los productos y las ganancias en listas separadas                                        
-        print(productos)
-        print (ganancias)
+        #print(productos)
+        #print (ganancias)
+        #print(unidades2)
+        #print(precios)
     #haciendo referencia a los ejes para las gráficas     
         
         for i in range(0,len(productos)):
             listax.append(productos[i][0])
             listay.append(productos[i][1])
-
+            
         print("\n\n")
         print(listax)
         print(listay)
-        self.prod= productos 
-        self.gananciass=ganancias
+        self.prod= listax 
+        self.gananciass=listay
+        
+    def Ordenar (self):
+        global orden
+        orden=listay             
+        intercambio = True
+        while intercambio:
+            intercambio=False
+            for i in range(len(orden)-1):
+                if orden[i] < orden [i+1]:
+                    listax[i],listax[i+1]=listax[i+1],listax[i]
+                    unidades2[i],unidades2[i+1]=unidades2[i+1],unidades2[i]
+                    precios[i],precios[i+1]=precios[i+1],precios[i]
+                    orden[i],orden[i+1]=orden[i+1], orden[i]
+                    intercambio=True
+        print(orden)
+        print(listax)
+    def Inicializar_reportes(self): 
+        global parteInicial
+        parteInicial='''<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Productos</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->	
+	<link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/perfect-scrollbar/perfect-scrollbar.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="css/util.css">
+	<link rel="stylesheet" type="text/css" href="css/main.css">
+<!--===============================================================================================-->
+</head>
+<body>
+	<h1>Productos Ordenados de Mayor a Menor Ganancia</h1>
+	<div class="limiter">
+		<div class="container-table100">
+			<div class="wrap-table100">
+				<div class="table100 ver1">
+					<div class="table100-firstcol">
+						<table>
+							<thead>
+								<tr class="row100 head">
+									<th class="cell100 column1">Productos</th>
+								</tr>								
+							</thead>
+							<tbody>'''
+        global parteMedia
+        parteMedia='''</tbody>
+						</table>
+					</div>
+					
+					<div class="wrap-table100-nextcols js-pscroll">
+						<div class="table100-nextcols">
+							<table>
+								<thead>
+									<tr class="row100 head">
+										<th class="cell100 column2">Precio</th>
+										<th class="cell100 column3">Unidades</th>
+										<th class="cell100 column4">Ganancia</th>
+									</tr>
+								</thead>
+								<tbody>'''   
+        global parteFinal
+        parteFinal='''</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>'''
+    global parteFinalFinal
+    parteFinalFinal='''<br>Reporte generado por: Angela Gabriela Pinelo Flores </br>
+		Carnet:202002536
+	</p>
+
+
+<!--===============================================================================================-->	
+	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
+<!--===============================================================================================-->
+	<script src="vendor/bootstrap/js/popper.js"></script>
+	<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+<!--===============================================================================================-->
+	<script src="vendor/select2/select2.min.js"></script>
+<!--===============================================================================================-->
+	<script src="vendor/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+	<script>
+		$('.js-pscroll').each(function(){
+			var ps = new PerfectScrollbar(this);
+
+			$(window).on('resize', function(){
+				ps.update();
+			})
+
+			$(this).on('ps-x-reach-start', function(){
+				$(this).parent().find('.table100-firstcol').removeClass('shadow-table100-firstcol');
+			});
+
+			$(this).on('ps-scroll-x', function(){
+				$(this).parent().find('.table100-firstcol').addClass('shadow-table100-firstcol');
+			});
+
+		});
+
+		
+		
+		
+	</script>
+<!--===============================================================================================-->
+	<script src="js/main.js"></script>
+
+</body>
+</html>'''
+    def TextoReportes(self):
+        global tabla1
+        tabla1=""
+        for zeus in range(len(productos)-1):
+            tabla1+='<tr class="row100 body">\n'
+            tabla1+='<td class="cell100 column1">'+str(listax[zeus])+'</td>\n'
+            tabla1+='</tr>'
+        '''<tr class="row100 body">
+				<td class="cell100 column1">Brandon Green</td>
+					</tr>'''
+        global tabla2
+        tabla2=""
+        for odin in range(len(productos)-1):
+            tabla2+='<tr class="row100 body">\n'
+            tabla2+='<td class="cell100 column2">\n'+str(precios[odin])+'</td>\n'
+            tabla2+='<td class="cell100 column2">\n'+str(unidades2[odin])+'</td>\n'
+            tabla2+='<td class="cell100 column2">\n'+str(orden[odin])+'</td>\n'
+            tabla2+='</tr>'
+            '''<tr class="row100 body">
+                <td class="cell100 column2">CMO</td>
+                <td class="cell100 column3">16 Nov 2012</td>
+                    <td class="cell100 column4">16 Nov 2017</td>
+                </tr>'''
+        global pmas
+        global pmenos
+        intercambio = True
+        while intercambio:
+            intercambio=False
+            for i in range(len(unidades2)-1):
+                if unidades2[i] < unidades2 [i+1]:
+                    listax[i],listax[i+1]=listax[i+1],listax[i]
+                    unidades2[i],unidades2[i+1]=unidades2[i+1],unidades2[i]
+                    intercambio=True
+        pmas="<h1>"+"Producto m&aacute;s vendido:"+"</h1></br>"
+        pmas+="<h1>"+str(listax[0])+" -->"+str(unidades2[0])+"</h1></br>"
+        
+        intercambio = True
+        while intercambio:
+            intercambio=False
+            for i in range(len(unidades2)-1):
+                if unidades2[i] > unidades2 [i+1]:
+                    listax[i],listax[i+1]=listax[i+1],listax[i]
+                    unidades2[i],unidades2[i+1]=unidades2[i+1],unidades2[i]
+                    intercambio=True
+        pmenos="<h1>"+"Producto menos vendido:"+"</h1></br>"
+        pmenos+="<h1>"+str(listax[0])+"--> "+str(unidades2[0])+"</h1></br>"
+    def crearReporte(self):
+        try: 
+            textoCompleto= parteInicial+tabla1+parteMedia+tabla2+parteFinal+pmas+pmenos+parteFinalFinal
+            file= open("./fixed-column-table/Table_Fixed_Column/index.html",'w')
+            file.write(textoCompleto)
+        except:
+            pass
         
 class Analizador2():
 
@@ -393,7 +575,7 @@ class Analizador2():
             plt.title(datos.get('titulo'))
             plt.savefig(datos.get('nombre'))
             plt.show()
-        elif tipo.get('grafica') == "líneas":
+        elif tipo.get('grafica') == "líneas" or tipo.get('grafica') == "lineas" or tipo.get('grafica') == "lneas":
             datos=self.instr
             eje_x =listax  
             eje_y =listay 

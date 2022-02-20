@@ -27,13 +27,17 @@ Selecciona una opcion: ''')
                 ap.AnalisiLexico()
                 ap.Analizador_sintactico()
                 ap.Productos()
+                ap.Ordenar()
+                #ap.Ordenar_en_base()
             elif res == '2':
                 op.LeerArchivoInstrucciones()
                 op.AnalizarInstrucciones()
             elif res == '3':
                 op.Graficador()
             elif res == '4':
-                pass
+                ap.Inicializar_reportes()
+                ap.TextoReportes()
+                ap.crearReporte()
             elif res == '5':
                 print("Adios")
                 break
