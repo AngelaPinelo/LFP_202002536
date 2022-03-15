@@ -7,15 +7,32 @@ from tkinter import messagebox
 
 
 def leerArchivo():
+    delimitadores=""
     Tk().withdraw()
     entrada = filedialog.askopenfilename(initialdir="c:/LFP", title="Escoge un archivo", filetypes= (("form files" ,"*.form"),("all files", "*.*")))
-    archivo = open(entrada, 'r')
-    global contenido
-    contenido = archivo.read()
-    analizarTexto.insert(1.0,contenido)
+    with open(entrada, encoding='utf-8') as archivo:
+    #archivo = open(entrada, 'r')
+        global contenido
+        contenido = archivo.read().strip()
+        analizarTexto.insert(1.0,contenido)
+    contenido=contenido.lower()
     #entrada.set(contenido)
-    archivo.close()
-    return contenido
+    com = False
+        #para quitar todos los espacios, tabulaciones y saltos de linea en el archivo
+        #sonnic representa mi índice que recorre el archivo
+    for sonnic in contenido:
+        if sonnic != '"':
+            if ( sonnic != "\n" and sonnic != "\t" and sonnic != " ") or com:
+                delimitadores += sonnic
+        elif not com:
+            delimitadores += sonnic
+            com = True
+        else:
+            delimitadores += sonnic
+            com = False
+    print(delimitadores)
+    #archivo.close()
+    #return contenido
 
 # con esta funcion modificamos el texto desde el text() de la interfaz
 def modifica_texto():

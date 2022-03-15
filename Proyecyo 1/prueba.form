@@ -1,0 +1,15 @@
+formulario ~~> [
+
+<
+tipo: "etiqueta",
+valor: "Nombre:"
+
+>,
+<
+tipo:"texto",
+valor:"Nombre",
+fondo: "Ingrese nombre:"
+>
+
+
+]
