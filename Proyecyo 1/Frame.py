@@ -86,5 +86,7 @@ def analizar ():
     scanner = Analizador()
     scanner.AnalisisLexico(contenido)
     scanner.imprimirDatos()
+    scanner.impTokens()
+    scanner.reporteTokens()
 
 root.mainloop()
