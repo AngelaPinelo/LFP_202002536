@@ -77,9 +77,9 @@ repTokens = IntVar()
 repErrores = IntVar()
 
 reportesMenu.menu.add_checkbutton ( label="Tokens",
-                          variable=repTokens, command=lambda: leerArchivo())
+                          variable=repTokens, command=lambda: reportarTokens())
 reportesMenu.menu.add_checkbutton ( label="Errores",
-                          variable=repErrores )
+                          variable=repErrores, command=lambda: reportarErrores())
 
 
 def analizar ():
@@ -87,6 +87,16 @@ def analizar ():
     scanner.AnalisisLexico(contenido)
     scanner.imprimirDatos()
     scanner.impTokens()
-    scanner.reporteTokens()
+    #scanner.reporteTokens()
+
+def reportarTokens():
+    fabricador=Analizador()
+    fabricador.AnalisisLexico(contenido)
+    fabricador.reporteTokens()
+
+def reportarErrores():
+    fabricador=Analizador()
+    fabricador.AnalisisLexico(contenido)
+    fabricador.reporteErrores()
 
 root.mainloop()

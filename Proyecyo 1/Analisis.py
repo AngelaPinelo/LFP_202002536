@@ -35,7 +35,6 @@ class Analizador():
     #Análisis Léxico 
     def AnalisisLexico(self,cadena):
         text = cadena + '$'
-        temp = ""
         estado = 0
         option = True
         for caracter in text:
@@ -77,6 +76,8 @@ class Analizador():
                         self.buffer+= caracter
                         self.columna+=1
                         self.agregar_token(self.buffer, 'Corchete cierra', self.linea, self.columna)
+                    elif caracter =='$':
+                        print("Archivo leído con éxito")
                     elif caracter.isalpha():
                         self.buffer+= caracter
                         self.columna+=1
@@ -85,8 +86,20 @@ class Analizador():
                         self.buffer+= caracter
                         self.columna+=1
                         estado = 2
+                    else:
+                        self.buffer += caracter
+                        self.agregar_error(self.buffer,'Error Lexico',self.linea,self.columna)
+                        self.buffer = ''
+                        self.columna += 1 
                 elif estado== 1:
                     option =False
+                    '''if ord (caracter)!=97 and ord (caracter)!=98 and ord (caracter)!=99 and ord (caracter)!=100 and ord (caracter)!=101 and ord (caracter)!=102 and ord (caracter)!=103 and ord (caracter)!=104 and ord (caracter)!=105 and ord (caracter)!=106 and ord (caracter)!=107 and ord (caracter)!=108 and ord (caracter)!=109 and ord (caracter)!=110 and ord (caracter)!=111 and ord (caracter)!=112 and ord (caracter)!=113 and ord (caracter)!=114 and ord (caracter)!=115 and ord (caracter)!=116 and ord (caracter)!=117 and ord (caracter)!=118 and ord (caracter)!=119 and ord (caracter)!=120 and ord (caracter)!=121 and ord (caracter)!=122:
+                        self.buffer += caracter
+                            self.agregar_error(self.buffer,'Error Lexico',self.linea,self.columna)
+                            self.buffer = ''
+                            self.columna += 1 
+                            self.estado = 0'''
+                        
                     if caracter.isalpha():
                         self.buffer+= caracter
                         self.columna+=1
@@ -109,29 +122,29 @@ class Analizador():
                         elif self.buffer == 'evento':
                             self.agregar_token(self.buffer,'identificador', self.linea,self.columna)
                             estado = 0
-                        else:
+                        '''elif  ord (caracter)!=97 and ord (caracter)!=98 and ord (caracter)!=99 and ord (caracter)!=100 and ord (caracter)!=101 and ord (caracter)!=102 and ord (caracter)!=103 and ord (caracter)!=104 and ord (caracter)!=105 and ord (caracter)!=106 and ord (caracter)!=107 and ord (caracter)!=108 and ord (caracter)!=109 and ord (caracter)!=110 and ord (caracter)!=111 and ord (caracter)!=112 and ord (caracter)!=113 and ord (caracter)!=114 and ord (caracter)!=115 and ord (caracter)!=116 and ord (caracter)!=117 and ord (caracter)!=118 and ord (caracter)!=119 and ord (caracter)!=120 and ord (caracter)!=121 and ord (caracter)!=122:                            
                             self.buffer += caracter
                             self.agregar_error(self.buffer,'Error Lexico',self.linea,self.columna)
-                            #self.buffer = ''
+                            self.buffer = ''
                             self.columna += 1 
-                            self.estado = 0
+                            self.estado = 0'''
                 elif estado == 2:
                     option = False
                     if caracter == '"':
                         self.buffer+=caracter
                         self.columna+=1
-                    elif caracter.isalpha() or caracter== ':'or caracter== ' ':
+                    elif caracter.isalpha() or caracter== ':'or caracter== ' 'or caracter== '@'or caracter== '?'or caracter== '¿'or caracter== '*'or caracter== '+'or caracter== '_'or caracter== ','or caracter== '<'or caracter== '>'or caracter== '-'or caracter== '%'or caracter== '!'or caracter== '¡'or caracter== '#':
                         self.buffer+=caracter
                         self.columna+=1
                     else:
                         self.agregar_token(self.buffer,'instruccion', self.linea,self.columna)
                         estado= 0
                         self.columna+=1  
-                else:
+                '''else:
                     self.buffer += caracter
                     self.agregar_error(self.buffer,'Error Lexico',self.linea,self.columna)
                     self.buffer = ''
-                    self.columna += 1                                                   
+                    self.columna += 1  '''                                                 
                     
     def impTokens(self):
         x = PrettyTable()
@@ -139,6 +152,16 @@ class Analizador():
         for i in self.listaTokens:
             x.add_row(i.enviarDataTok())
         print(x)
+        
+    def impErrores(self):
+        x = PrettyTable()
+        x.field_names = ["Descripcion", "Fila", "Columna"]
+        if len(self.listaErrores)==0:
+            print('No hay errores')
+        else:
+            for i in self.listaErrores:
+                x.add_row(i.enviarDataError())
+            print(x)
     
     def reporteTokens(self):
         x = PrettyTable()
@@ -175,4 +198,44 @@ class Analizador():
         file1.write(plantilla1)
         file1.close()
         webbrowser.open('reporteTokens.html')
+    
+    
+    def reporteErrores(self):
+        x = PrettyTable()
+        x.field_names = ["Caracter","Descripcion", "Fila", "Columna"]
+        if len(self.listaErrores)==0:
+            print('No hay errores')
+        else:
+            for i in self.listaErrores:
+                x.add_row(i.enviarDataError())
+            cadenaerrores = x.get_html_string()
+            cadenaerroresform = "{}".format(cadenaerrores)
+            plantilla2 = """
+            <html lang="es">
+                    <head>
+                    <!-- Required meta tags -->
+                    <meta charset="utf-8">
+                    <!-- <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/> -->
+                    <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
+                    <!-- Bootstrap CSS -->
+                    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+                    <title>Reporte de Errores</title>
+                    </head>
+                    <body>
+                    {cadenaerroresform}
+                    <!-- Optional JavaScript; choose one of the two! -->
+                    <!-- Option 1: Bootstrap Bundle with Popper -->
+                    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
+                    <!-- Option 2: Separate Popper and Bootstrap JS -->
+                    <!--
+                    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-eMNCOe7tC1doHpGoWe/6oMVemdAVTMs2xqW4mwXrXsW0L84Iytr2wi5v2QjrP/xp" crossorigin="anonymous"></script>
+                    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js" integrity="sha384-cn7l7gDp0eyniUwwAZgrzD06kc/tftFf19TOAs2zVinnD/C7E91j9yyk5//jjpt/" crossorigin="anonymous"></script>
+                    -->
+                    </body>
+                    </html>
+                    """.format(**locals())
+            file1= open("reporteErrores.html","w")
+            file1.write(plantilla2)
+            file1.close()
+            webbrowser.open('reporteErrores.html')
 
