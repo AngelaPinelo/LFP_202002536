@@ -7,6 +7,7 @@ from tkinter import messagebox
 
 
 def leerArchivo():
+    #en realidad elimino lo que va después de ellos
     delimitadores=""
     Tk().withdraw()
     entrada = filedialog.askopenfilename(initialdir="c:/LFP", title="Escoge un archivo", filetypes= (("form files" ,"*.form"),("all files", "*.*")))
@@ -79,6 +80,7 @@ reportesMenu.menu.add_checkbutton ( label="Errores",
                           variable=repErrores )
 
 
-
+def analizar ():
+    pass
 
 root.mainloop()

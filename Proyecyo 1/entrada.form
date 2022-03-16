@@ -1,0 +1,26 @@
+formulario ~>> [
+  <
+
+    tipo	: 	"etiqueta",
+    valor: 
+"Nombre"	^^
+  >,
+  <    &    *
+    tipo: "texto",
+    valor: "Nombre",
+    fondo: "Ingrese nombre"
+  >,
+  <
+    tipo: "grupo-option",%
+    nombre: "pais",
+    valores: ["Guatemala", "El salvador", "Honduras"]
+  >,  @
+  <
+    tipo: "boton",
+    valor: "valor",
+    evento: <EVENTO>
+  > que
+	tr 	u	e	n	e
+	tu	pro
+gra	ma	jsjsjsjs
+]
