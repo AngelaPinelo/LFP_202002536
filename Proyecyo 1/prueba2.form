@@ -1,0 +1,15 @@
+formulario ~>> [
+
+<
+tipo: ,
+valor: 
+
+>,
+<
+tipo:,
+valor:,
+fondo:
+>
+
+
+]

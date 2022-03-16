@@ -3,6 +3,7 @@ from tkinter import filedialog
 from tkinter.filedialog import askopenfilename
 from tkinter.filedialog import asksaveasfile
 from tkinter import messagebox
+from Analisis import Analizador
 
 
 
@@ -17,8 +18,9 @@ def leerArchivo():
         contenido = archivo.read().strip()
         analizarTexto.insert(1.0,contenido)
     contenido=contenido.lower()
+    print(contenido)
     #entrada.set(contenido)
-    com = False
+    '''com = False
         #para quitar todos los espacios, tabulaciones y saltos de linea en el archivo
         #sonnic representa mi índice que recorre el archivo
     for sonnic in contenido:
@@ -31,7 +33,7 @@ def leerArchivo():
         else:
             delimitadores += sonnic
             com = False
-    print(delimitadores)
+    print(delimitadores)'''
     #archivo.close()
     #return contenido
 
@@ -54,7 +56,7 @@ miFrame.config(bg="light pink")
 
 botonCargar=Button(root,text="Cargar archivo",command = lambda: leerArchivo())
 botonCargar.grid(row=0, column=0,padx=1,pady=1)
-botonAnalizar=Button(root,text="Analizar archivo")
+botonAnalizar=Button(root,text="Analizar archivo",command = lambda: analizar())
 botonAnalizar.grid(row=1, column=0,padx=1,pady=2)
 #botonCargar.pack()
 
@@ -81,6 +83,8 @@ reportesMenu.menu.add_checkbutton ( label="Errores",
 
 
 def analizar ():
-    pass
+    scanner = Analizador()
+    scanner.AnalisisLexico(contenido)
+    scanner.imprimirDatos()
 
 root.mainloop()
