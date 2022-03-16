@@ -19,14 +19,17 @@ class Analizador():
         print ('**************Lista Tokens************')
         for token in self.listaTokens:
             token.getTok()
+        for error in self.listaErrores:
+            error.getError()
     #tengo que crear mi objeto Token first
     def agregar_token(self,caracter,token,linea,columna):
         self.listaTokens.append(Token(caracter,token,linea,columna))
         self.buffer = ''
 
     #tengo que crear mi objeto Error first
-    def agregar_error(self,caracter,linea,columna):
-        self.listaErrores.append(Error('Caracter ' + caracter + ' no reconocido.', linea, columna))
+    def agregar_error(self,caracter,descripcion,linea,columna):
+        self.listaErrores.append(Error( caracter, descripcion, linea, columna))
+        self.buffer=''
         
     
     #Análisis Léxico 
@@ -106,8 +109,12 @@ class Analizador():
                         elif self.buffer == 'evento':
                             self.agregar_token(self.buffer,'identificador', self.linea,self.columna)
                             estado = 0
-                        self.estado = 0
-                        self.columna+=1
+                        else:
+                            self.buffer += caracter
+                            self.agregar_error(self.buffer,'Error Lexico',self.linea,self.columna)
+                            #self.buffer = ''
+                            self.columna += 1 
+                            self.estado = 0
                 elif estado == 2:
                     option = False
                     if caracter == '"':
@@ -119,7 +126,12 @@ class Analizador():
                     else:
                         self.agregar_token(self.buffer,'instruccion', self.linea,self.columna)
                         estado= 0
-                        self.columna+=1                                                     
+                        self.columna+=1  
+                else:
+                    self.buffer += caracter
+                    self.agregar_error(self.buffer,'Error Lexico',self.linea,self.columna)
+                    self.buffer = ''
+                    self.columna += 1                                                   
                     
     def impTokens(self):
         x = PrettyTable()

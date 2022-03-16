@@ -26,7 +26,7 @@ class Error :
     def enviarDataError(self):
         return [self.descripcion, self.tipo, self.linea, self.columna]
     
-    def getTok(self):
+    def getError(self):
         
         print('\n *****************')
         print('Tipo:', self.tipo)

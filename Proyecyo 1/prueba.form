@@ -1,9 +1,9 @@
-formulario ~>> [
-
+form@ulario ~>> [
+&
 <
 tipo: "etiqueta",
 valor: "Nombre:"
-
+?
 >,
 <
 tipo:"texto",
