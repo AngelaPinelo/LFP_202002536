@@ -147,6 +147,7 @@ class Analizador():
                     self.columna += 1  '''                                                 
                     
     def impTokens(self):
+        print("TABLA TOKENS")
         x = PrettyTable()
         x.field_names = ["Lexema", "Token", "Fila", "Columna"]
         for i in self.listaTokens:
@@ -154,8 +155,9 @@ class Analizador():
         print(x)
         
     def impErrores(self):
+        print("TABLA ERRORES")
         x = PrettyTable()
-        x.field_names = ["Descripcion", "Fila", "Columna"]
+        x.field_names = ["lexema","Descripcion", "Fila", "Columna"]
         if len(self.listaErrores)==0:
             print('No hay errores')
         else:

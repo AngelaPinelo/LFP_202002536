@@ -4,6 +4,7 @@ from tkinter.filedialog import askopenfilename
 from tkinter.filedialog import asksaveasfile
 from tkinter import messagebox
 from Analisis import Analizador
+import sys
 
 
 
@@ -58,6 +59,8 @@ botonCargar=Button(root,text="Cargar archivo",command = lambda: leerArchivo())
 botonCargar.grid(row=0, column=0,padx=1,pady=1)
 botonAnalizar=Button(root,text="Analizar archivo",command = lambda: analizar())
 botonAnalizar.grid(row=1, column=0,padx=1,pady=2)
+botonSalir=Button(root,text="Salir",command = lambda: salir())
+botonSalir.grid(row=3,column=0,padx=1,pady=2)
 #botonCargar.pack()
 
 analizarTexto=Text(root,width=70, height=30)
@@ -87,6 +90,7 @@ def analizar ():
     scanner.AnalisisLexico(contenido)
     scanner.imprimirDatos()
     scanner.impTokens()
+    scanner.impErrores()
     #scanner.reporteTokens()
 
 def reportarTokens():
@@ -98,5 +102,6 @@ def reportarErrores():
     fabricador=Analizador()
     fabricador.AnalisisLexico(contenido)
     fabricador.reporteErrores()
-
+def salir():
+    sys.exit()
 root.mainloop()
