@@ -50,6 +50,9 @@ class Analizador():
                     elif caracter == '\n':
                         self.linea += 1
                         self.columna = 1
+                    elif caracter == '\r':
+                        self.linea += 1
+                        self.columna = 1
                     elif caracter in ['\t',' ']:
                         self.columna += 1
                     elif caracter == '>':
@@ -71,11 +74,12 @@ class Analizador():
                     elif caracter == '[':
                         self.buffer+= caracter
                         self.columna+=1
-                        self.agregar_token(self.buffer, 'Corchete abre', self.linea, self.columna)
-                    elif caracter == ']':
+                        estado = 3
+                        #self.agregar_token(self.buffer, 'Corchete abre', self.linea, self.columna)
+                        '''elif caracter == ']':
                         self.buffer+= caracter
                         self.columna+=1
-                        self.agregar_token(self.buffer, 'Corchete cierra', self.linea, self.columna)
+                        self.agregar_token(self.buffer, 'Corchete cierra', self.linea, self.columna)'''
                     elif caracter =='$':
                         print("Archivo leído con éxito")
                     elif caracter.isalpha():
@@ -133,18 +137,38 @@ class Analizador():
                     if caracter == '"':
                         self.buffer+=caracter
                         self.columna+=1
+                        #self.linea+=1    
                     elif caracter.isalpha() or caracter== ':'or caracter== ' 'or caracter== '@'or caracter== '?'or caracter== '¿'or caracter== '*'or caracter== '+'or caracter== '_'or caracter== ','or caracter== '<'or caracter== '>'or caracter== '-'or caracter== '%'or caracter== '!'or caracter== '¡'or caracter== '#':
                         self.buffer+=caracter
-                        self.columna+=1
+                        self.columna+=1       
                     else:
+                        self.linea+=1
                         self.agregar_token(self.buffer,'instruccion', self.linea,self.columna)
                         estado= 0
                         self.columna+=1  
-                '''else:
-                    self.buffer += caracter
-                    self.agregar_error(self.buffer,'Error Lexico',self.linea,self.columna)
-                    self.buffer = ''
-                    self.columna += 1  '''                                                 
+                    '''else:
+                        self.buffer += caracter
+                        self.agregar_error(self.buffer,'Error Lexico',self.linea,self.columna)
+                        self.buffer = ''
+                        self.columna += 1  '''  
+                elif estado ==3:
+                    option = False
+                    if caracter == '[':
+                        self.buffer+=caracter
+                        self.columna+=1    
+                    elif caracter == "'" or caracter ==' ' or caracter ==',' or caracter ==']'or caracter.isalpha():                                                
+                        self.buffer+=caracter
+                        self.columna +=1
+                    elif caracter == '\n':
+                        self.linea += 1
+                    elif caracter == '\r':
+                        self.linea +=1
+                    elif caracter in ['\t',' ']:
+                        self.columna += 1
+                    else:
+                        self.agregar_token(self.buffer,'grupo', self.linea, self.columna)
+                        estado=0
+                        self.columna+=1
                     
     def impTokens(self):
         print("TABLA TOKENS")
