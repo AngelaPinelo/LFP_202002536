@@ -182,6 +182,7 @@ class Analizador():
                 <title>Reporte de Tokens</title>
                 </head>
                 <body>
+                <h3>Tokens</h3>
                 {cadenatokensform}
                 <!-- Optional JavaScript; choose one of the two! -->
                 <!-- Option 1: Bootstrap Bundle with Popper -->
@@ -222,6 +223,7 @@ class Analizador():
                     <title>Reporte de Errores</title>
                     </head>
                     <body>
+                    <h3>Errores</h3>
                     {cadenaerroresform}
                     <!-- Optional JavaScript; choose one of the two! -->
                     <!-- Option 1: Bootstrap Bundle with Popper -->
