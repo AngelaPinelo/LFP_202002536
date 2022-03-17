@@ -12,8 +12,6 @@ class Analizador():
         self.linea = 1
         self.columna = 0
         self.buffer = ''
-        self.estado = 0
-        self.i = 0
         
     def imprimirDatos(self):
         print ('**************Lista Tokens************')
@@ -75,11 +73,6 @@ class Analizador():
                         self.buffer+= caracter
                         self.columna+=1
                         estado = 3
-                        #self.agregar_token(self.buffer, 'Corchete abre', self.linea, self.columna)
-                        '''elif caracter == ']':
-                        self.buffer+= caracter
-                        self.columna+=1
-                        self.agregar_token(self.buffer, 'Corchete cierra', self.linea, self.columna)'''
                     elif caracter =='$':
                         print("Archivo leído con éxito")
                     elif caracter.isalpha():
@@ -95,15 +88,10 @@ class Analizador():
                         self.agregar_error(self.buffer,'Error Lexico',self.linea,self.columna)
                         self.buffer = ''
                         self.columna += 1 
+                        
                 elif estado== 1:
                     option =False
-                    '''if ord (caracter)!=97 and ord (caracter)!=98 and ord (caracter)!=99 and ord (caracter)!=100 and ord (caracter)!=101 and ord (caracter)!=102 and ord (caracter)!=103 and ord (caracter)!=104 and ord (caracter)!=105 and ord (caracter)!=106 and ord (caracter)!=107 and ord (caracter)!=108 and ord (caracter)!=109 and ord (caracter)!=110 and ord (caracter)!=111 and ord (caracter)!=112 and ord (caracter)!=113 and ord (caracter)!=114 and ord (caracter)!=115 and ord (caracter)!=116 and ord (caracter)!=117 and ord (caracter)!=118 and ord (caracter)!=119 and ord (caracter)!=120 and ord (caracter)!=121 and ord (caracter)!=122:
-                        self.buffer += caracter
-                            self.agregar_error(self.buffer,'Error Lexico',self.linea,self.columna)
-                            self.buffer = ''
-                            self.columna += 1 
-                            self.estado = 0'''
-                        
+                                        
                     if caracter.isalpha():
                         self.buffer+= caracter
                         self.columna+=1
@@ -126,12 +114,13 @@ class Analizador():
                         elif self.buffer == 'evento':
                             self.agregar_token(self.buffer,'identificador', self.linea,self.columna)
                             estado = 0
-                        '''elif  ord (caracter)!=97 and ord (caracter)!=98 and ord (caracter)!=99 and ord (caracter)!=100 and ord (caracter)!=101 and ord (caracter)!=102 and ord (caracter)!=103 and ord (caracter)!=104 and ord (caracter)!=105 and ord (caracter)!=106 and ord (caracter)!=107 and ord (caracter)!=108 and ord (caracter)!=109 and ord (caracter)!=110 and ord (caracter)!=111 and ord (caracter)!=112 and ord (caracter)!=113 and ord (caracter)!=114 and ord (caracter)!=115 and ord (caracter)!=116 and ord (caracter)!=117 and ord (caracter)!=118 and ord (caracter)!=119 and ord (caracter)!=120 and ord (caracter)!=121 and ord (caracter)!=122:                            
+                        elif  ord (caracter)!=97 and ord (caracter)!=98 and ord (caracter)!=99 and ord (caracter)!=100 and ord (caracter)!=101 and ord (caracter)!=102 and ord (caracter)!=103 and ord (caracter)!=104 and ord (caracter)!=105 and ord (caracter)!=106 and ord (caracter)!=107 and ord (caracter)!=108 and ord (caracter)!=109 and ord (caracter)!=110 and ord (caracter)!=111 and ord (caracter)!=112 and ord (caracter)!=113 and ord (caracter)!=114 and ord (caracter)!=115 and ord (caracter)!=116 and ord (caracter)!=117 and ord (caracter)!=118 and ord (caracter)!=119 and ord (caracter)!=120 and ord (caracter)!=121 and ord (caracter)!=122:                            
                             self.buffer += caracter
                             self.agregar_error(self.buffer,'Error Lexico',self.linea,self.columna)
                             self.buffer = ''
                             self.columna += 1 
-                            self.estado = 0'''
+                            estado = 0
+                            
                 elif estado == 2:
                     option = False
                     if caracter == '"':
@@ -146,11 +135,7 @@ class Analizador():
                         self.agregar_token(self.buffer,'instruccion', self.linea,self.columna)
                         estado= 0
                         self.columna+=1  
-                    '''else:
-                        self.buffer += caracter
-                        self.agregar_error(self.buffer,'Error Lexico',self.linea,self.columna)
-                        self.buffer = ''
-                        self.columna += 1  '''  
+                        
                 elif estado ==3:
                     option = False
                     if caracter == '[':

@@ -12,7 +12,7 @@ def leerArchivo():
     #en realidad elimino lo que va después de ellos
     delimitadores=""
     Tk().withdraw()
-    entrada = filedialog.askopenfilename(initialdir="c:/LFP", title="Escoge un archivo", filetypes= (("form files" ,"*.form"),("all files", "*.*")))
+    entrada = filedialog.askopenfilename(initialdir="c:/", title="Escoge un archivo", filetypes= (("form files" ,"*.form"),("all files", "*.*")))
     with open(entrada, encoding='utf-8') as archivo:
     #archivo = open(entrada, 'r')
         global contenido
@@ -20,23 +20,7 @@ def leerArchivo():
         analizarTexto.insert(1.0,contenido)
     contenido=contenido.lower()
     print(contenido)
-    #entrada.set(contenido)
-    '''com = False
-        #para quitar todos los espacios, tabulaciones y saltos de linea en el archivo
-        #sonnic representa mi índice que recorre el archivo
-    for sonnic in contenido:
-        if sonnic != '"':
-            if ( sonnic != "\n" and sonnic != "\t" and sonnic != " ") or com:
-                delimitadores += sonnic
-        elif not com:
-            delimitadores += sonnic
-            com = True
-        else:
-            delimitadores += sonnic
-            com = False
-    print(delimitadores)'''
-    #archivo.close()
-    #return contenido
+  
 
 # con esta funcion modificamos el texto desde el text() de la interfaz
 def modifica_texto():
@@ -50,10 +34,9 @@ root.iconbitmap("corazon.ico")
 root.config(bg="sky blue")
 
 miFrame=Frame(root, width=500, height=400)
-#miFrame.pack()
 miFrame.config(bg="light pink")
 
-#entrada=StringVar()
+
 
 botonCargar=Button(root,text="Cargar archivo",command = lambda: leerArchivo())
 botonCargar.grid(row=0, column=0,padx=1,pady=1)
@@ -61,15 +44,13 @@ botonAnalizar=Button(root,text="Analizar archivo",command = lambda: analizar())
 botonAnalizar.grid(row=1, column=0,padx=1,pady=2)
 botonSalir=Button(root,text="Salir",command = lambda: salir())
 botonSalir.grid(row=3,column=0,padx=1,pady=2)
-#botonCargar.pack()
+
 
 analizarTexto=Text(root,width=70, height=30)
-#analizarTexto.insert(INSERT,entrada)
 analizarTexto.grid(row=3, column=8)
 scrollTexto=Scrollbar(root, command=analizarTexto.yview)
 scrollTexto.grid(row=3,column=9, sticky="nsew")
-#scrollTexto.config(yscrollcommand=scrollTexto.set)
-#analizarTexto.pack()
+
 
 reportesMenu=Menubutton(root, text="Reportes", relief=RAISED)
 reportesMenu.grid(row=2, column=0,padx=1,pady=2)
@@ -91,7 +72,6 @@ def analizar ():
     scanner.imprimirDatos()
     scanner.impTokens()
     scanner.impErrores()
-    #scanner.reporteTokens()
 
 def reportarTokens():
     fabricador=Analizador()
