@@ -68,7 +68,9 @@ reportesMenu.menu.add_checkbutton ( label="Errores",
 
 def analizar ():
     scanner = Analizador()
-    scanner.AnalisisLexico(contenido)
+    textanal=analizarTexto.get(1.0,END)
+    print(textanal)
+    scanner.AnalisisLexico(textanal)
     scanner.imprimirDatos()
     scanner.impTokens()
     scanner.impErrores()
