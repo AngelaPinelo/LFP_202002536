@@ -65,6 +65,10 @@ class Analizador():
                         self.buffer+= caracter
                         self.columna+=1
                         self.agregar_token(self.buffer, 'Coma', self.linea, self.columna)
+                    elif caracter ==']':
+                        self.buffer+= caracter
+                        self.columna+=1
+                        self.agregar_token(self.buffer, 'Corchete Cierra', self.linea, self.columna)
                     elif caracter == ':':
                         self.buffer+= caracter
                         self.columna+=1
@@ -100,19 +104,22 @@ class Analizador():
                             self.agregar_token(self.buffer,'Palabra reservada', self.linea,self.columna)
                             estado = 0
                         elif self.buffer == 'tipo':
-                            self.agregar_token(self.buffer,'identificador', self.linea,self.columna)
+                            self.agregar_token(self.buffer,'Palabra reservada', self.linea,self.columna)
                             estado = 0
                         elif self.buffer == 'valor':
-                            self.agregar_token(self.buffer,'identificador', self.linea,self.columna)
+                            self.agregar_token(self.buffer,'Palabra reservada', self.linea,self.columna)
                             estado = 0
                         elif self.buffer == 'fondo':
-                            self.agregar_token(self.buffer,'identificador', self.linea,self.columna)
+                            self.agregar_token(self.buffer,'Palabra reservada', self.linea,self.columna)
                             estado = 0
                         elif self.buffer == 'valores':
-                            self.agregar_token(self.buffer,'identificador', self.linea,self.columna)
+                            self.agregar_token(self.buffer,'Palabra reservada', self.linea,self.columna)
                             estado = 0
                         elif self.buffer == 'evento':
-                            self.agregar_token(self.buffer,'identificador', self.linea,self.columna)
+                            self.agregar_token(self.buffer,'Palabra reservada', self.linea,self.columna)
+                            estado = 0
+                        elif self.buffer == 'nombre':
+                            self.agregar_token(self.buffer,'Palabra reservada de grupo', self.linea,self.columna)
                             estado = 0
                         elif  ord (caracter)!=97 and ord (caracter)!=98 and ord (caracter)!=99 and ord (caracter)!=100 and ord (caracter)!=101 and ord (caracter)!=102 and ord (caracter)!=103 and ord (caracter)!=104 and ord (caracter)!=105 and ord (caracter)!=106 and ord (caracter)!=107 and ord (caracter)!=108 and ord (caracter)!=109 and ord (caracter)!=110 and ord (caracter)!=111 and ord (caracter)!=112 and ord (caracter)!=113 and ord (caracter)!=114 and ord (caracter)!=115 and ord (caracter)!=116 and ord (caracter)!=117 and ord (caracter)!=118 and ord (caracter)!=119 and ord (caracter)!=120 and ord (caracter)!=121 and ord (caracter)!=122:                            
                             self.buffer += caracter
@@ -127,7 +134,7 @@ class Analizador():
                         self.buffer+=caracter
                         self.columna+=1
                         #self.linea+=1    
-                    elif caracter.isalpha() or caracter== ':'or caracter== ' 'or caracter== '@'or caracter== '?'or caracter== '¿'or caracter== '*'or caracter== '+'or caracter== '_'or caracter== ','or caracter== '<'or caracter== '>'or caracter== '-'or caracter== '%'or caracter== '!'or caracter== '¡'or caracter== '#':
+                    elif caracter.isalpha() or caracter== ':'or caracter== ' 'or caracter== '@'or caracter== '?'or caracter== '¿'or caracter== '*'or caracter== '+'or caracter== '_'or caracter== '<'or caracter== '>'or caracter== '-'or caracter== '%'or caracter== '!'or caracter== '¡'or caracter== '#':
                         self.buffer+=caracter
                         self.columna+=1       
                     else:
@@ -250,5 +257,63 @@ class Analizador():
             file1= open("reporteErrores.html","w")
             file1.write(plantilla2)
             file1.close()
-            webbrowser.open('reporteErrores.html')
+            webbrowser.open('./style.css/reporteErrores.html')
+    
+    def reporteFormulario(self):
+        plantilla3 ="""
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>Formulario LFP</title>
+  <link rel="stylesheet" href="./style.css">
 
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<div class="container">  
+  <form id="contact" action="" method="post">
+    <h3>Formulario</h3>
+    <fieldset>
+      <label for ="nombre">Nombre:</label>
+      <input placeholder="Ingresa tu nombre" type="text" tabindex="1" required autofocus>
+    </fieldset>
+    <fieldset>
+      <label for ="nombre">Sexo:</label><br>
+      <INPUT type="radio" name="sexo" value="Varón"> Varón<BR>
+      <INPUT type="radio" name="sexo" value="Mujer"> Mujer<BR>
+    </fieldset>
+    <fieldset>
+      <p>
+
+        País:
+      
+        <select>
+      
+          <optgroup label="país">
+      
+            <option>Guatema</option>
+      
+            <option>Honduras</option>
+      
+            <option>Costa Rica</option>
+      
+            <option>Panamá</option>      
+        </select>
+      
+      </p>
+    </fieldset>
+    <fieldset>
+      <button name="submit" type="submit" id="contact-submit" data-submit="...Sending">Valor</button>
+    </fieldset>
+  </form>
+ 
+  
+</div>
+</body>
+</html>
+        
+        """
+        file1= open("Formulario.html","w")
+        file1.write(plantilla3)
+        file1.close()
+        webbrowser.open('Formulario.html')

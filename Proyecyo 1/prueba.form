@@ -1,4 +1,4 @@
-formulario ~>> 
+formulario ~>> [
 &
 <
 tipo: "etiqueta",{}
@@ -9,7 +9,21 @@ valor: "Nombre:"/
 tipo:"texto",
 valor:"Nombre",
 fondo: "Ingrese nombre:"
-valores: ['Masculino', 'femeninO']
+>,
+<
+tipo:"grupo-radio",
+valor:"sexo",
+valores: ['Masculino','Femenino']
+>,
+<
+tipo:"grupo-option",
+nombre:"pais",
+valores: ['Guatemala','Honduras','Nicaragua']
+>,
+<
+tipo:"boton",
+valor:"Valor",
+evento: "evento"
 >
-
+]
 

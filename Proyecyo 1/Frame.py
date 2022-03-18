@@ -9,12 +9,9 @@ import sys
 
 
 def leerArchivo():
-    #en realidad elimino lo que va después de ellos
-    delimitadores=""
     Tk().withdraw()
     entrada = filedialog.askopenfilename(initialdir="c:/", title="Escoge un archivo", filetypes= (("form files" ,"*.form"),("all files", "*.*")))
     with open(entrada, encoding='utf-8') as archivo:
-    #archivo = open(entrada, 'r')
         global contenido
         contenido = archivo.read().strip()
         analizarTexto.insert(1.0,contenido)
@@ -44,6 +41,8 @@ botonAnalizar=Button(root,text="Analizar archivo",command = lambda: analizar())
 botonAnalizar.grid(row=1, column=0,padx=1,pady=2)
 botonSalir=Button(root,text="Salir",command = lambda: salir())
 botonSalir.grid(row=3,column=0,padx=1,pady=2)
+botonFormulario=Button(root,text="Crear Formulario",command = lambda: formulario())
+botonFormulario.grid(row=5,column=0,padx=1,pady=2)
 
 
 analizarTexto=Text(root,width=70, height=30)
@@ -68,22 +67,30 @@ reportesMenu.menu.add_checkbutton ( label="Errores",
 
 def analizar ():
     scanner = Analizador()
-    textanal=analizarTexto.get(1.0,END)
-    print(textanal)
-    scanner.AnalisisLexico(textanal)
+    textanalizar=analizarTexto.get(1.0,END)
+    textanalizar=textanalizar.lower()
+    print(textanalizar)
+    scanner.AnalisisLexico(textanalizar)
     scanner.imprimirDatos()
     scanner.impTokens()
     scanner.impErrores()
 
 def reportarTokens():
+    textanalizar=analizarTexto.get(1.0,END)
+    textanalizar=textanalizar.lower()
     fabricador=Analizador()
-    fabricador.AnalisisLexico(contenido)
+    fabricador.AnalisisLexico(textanalizar)
     fabricador.reporteTokens()
 
 def reportarErrores():
+    textanalizar=analizarTexto.get(1.0,END)
+    textanalizar=textanalizar.lower()
     fabricador=Analizador()
-    fabricador.AnalisisLexico(contenido)
+    fabricador.AnalisisLexico(textanalizar)
     fabricador.reporteErrores()
+def formulario():
+    fabricador=Analizador()
+    fabricador.reporteFormulario()
 def salir():
     sys.exit()
 root.mainloop()
