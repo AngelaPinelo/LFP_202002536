@@ -4,6 +4,7 @@ from tkinter.filedialog import askopenfilename
 from tkinter.filedialog import asksaveasfile
 from tkinter import messagebox
 from Analisis import Analizador
+from Analisis2 import Analizador2
 import sys
 
 
@@ -66,31 +67,37 @@ reportesMenu.menu.add_checkbutton ( label="Errores",
 
 
 def analizar ():
-    scanner = Analizador()
+    scanner = Analizador2()
     textanalizar=analizarTexto.get(1.0,END)
     textanalizar=textanalizar.lower()
-    print(textanalizar)
     scanner.AnalisisLexico(textanalizar)
     scanner.imprimirDatos()
     scanner.impTokens()
     scanner.impErrores()
+    scanner.creacionFormulario()
 
 def reportarTokens():
     textanalizar=analizarTexto.get(1.0,END)
     textanalizar=textanalizar.lower()
-    fabricador=Analizador()
+    fabricador=Analizador2()
     fabricador.AnalisisLexico(textanalizar)
     fabricador.reporteTokens()
 
 def reportarErrores():
     textanalizar=analizarTexto.get(1.0,END)
     textanalizar=textanalizar.lower()
-    fabricador=Analizador()
+    fabricador=Analizador2()
     fabricador.AnalisisLexico(textanalizar)
     fabricador.reporteErrores()
 def formulario():
-    fabricador=Analizador()
-    fabricador.reporteFormulario()
+    textanalizar=analizarTexto.get(1.0,END)
+    textanalizar=textanalizar.lower()
+    fabricador=Analizador2()
+    fabricador.AnalisisLexico(textanalizar)
+    #print(fabricador.listaTokens)
+    fabricador.creacionFormulario()
+    fabricador.crearReporte()
+    #fabricador.reporteFormulario()
 def salir():
     sys.exit()
 root.mainloop()

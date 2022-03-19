@@ -1,0 +1,9 @@
+formulario ~>> [
+&
+<
+tipo:"grupo-option",
+nombre:"pais",
+valores: ['Guatemala','Honduras','Nicaragua']
+>
+]
+

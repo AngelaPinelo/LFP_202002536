@@ -2,9 +2,16 @@ from TE import Token
 from TE import Error
 from prettytable import PrettyTable
 import webbrowser
+import copy
 
-global tokens
-tokens=[]  
+global formularioinicio
+formularioinicio=""""""
+global formularioIntermedio
+formularioIntermedio=""""""
+global formularioFinal
+formularioFinal=""""""
+global copiaTok
+copiaTok=[]  
 class Analizador():
     def __init__(self):
         self.listaTokens = []
@@ -133,15 +140,15 @@ class Analizador():
                     if caracter == '"':
                         self.buffer+=caracter
                         self.columna+=1
-                        #self.linea+=1    
+                        #self.linea+=1   
                     elif caracter.isalpha() or caracter== ':'or caracter== ' 'or caracter== '@'or caracter== '?'or caracter== '¿'or caracter== '*'or caracter== '+'or caracter== '_'or caracter== '<'or caracter== '>'or caracter== '-'or caracter== '%'or caracter== '!'or caracter== '¡'or caracter== '#':
                         self.buffer+=caracter
-                        self.columna+=1       
+                        self.columna+=1  
                     else:
                         self.linea+=1
                         self.agregar_token(self.buffer,'instruccion', self.linea,self.columna)
                         estado= 0
-                        self.columna+=1  
+                        self.columna+=1 
                         
                 elif estado ==3:
                     option = False
@@ -257,7 +264,7 @@ class Analizador():
             file1= open("reporteErrores.html","w")
             file1.write(plantilla2)
             file1.close()
-            webbrowser.open('./style.css/reporteErrores.html')
+            webbrowser.open('reporteErrores.html')
     
     def reporteFormulario(self):
         plantilla3 ="""
@@ -297,7 +304,7 @@ class Analizador():
       
             <option>Costa Rica</option>
       
-            <option>Panamá</option>      
+            <option>Panama</option>      
         </select>
       
       </p>
@@ -317,3 +324,124 @@ class Analizador():
         file1.write(plantilla3)
         file1.close()
         webbrowser.open('Formulario.html')
+        
+    #Pseudo Ananlizador Sintáctico
+    def creacionFormulario(self):
+        copiaTok=copy.deepcopy(self.listaTokens)
+        #print(self.listaTokens)
+        #print('**************************')
+        #print(copiaTok)
+        
+        if copiaTok[0].lexema == 'formulario':
+            copiaTok.pop(0)
+            if copiaTok[0].lexema == '~':
+                copiaTok.pop(0)
+                if copiaTok[0].lexema == '>':
+                    copiaTok.pop(0)
+                    if copiaTok[0].lexema == '>':
+                        copiaTok.pop(0)
+                        if copiaTok[0].lexema == '[':
+                            copiaTok.pop(0)   
+                             
+                            self.estadoRecursivo(copiaTok)
+                            
+    def estadoRecursivo(self,copiaTok):
+        if copiaTok[0].lexema == '<':
+            copiaTok.pop(0) 
+            if copiaTok[0].lexema == 'tipo':
+                copiaTok.pop(0)
+                
+                if copiaTok[0].lexema == '"etiqueta"'or  copiaTok[0].lexema == '"label"':
+                    copiaTok.pop(0)
+                   
+                    if copiaTok[0].lexema==',':
+                        copiaTok.pop(0)
+                        
+                        #self.opEtiqueta()
+                elif copiaTok[0].lexema == '"texto"' or copiaTok[0].lexema == '"input"':
+                    copiaTok.pop(0)
+                   
+                    if copiaTok[0].lexema==',':
+                        copiaTok.pop(0)  
+                                        
+                elif copiaTok[0].lexema == '"grupo-radio"' or copiaTok[0].lexema == '"grupo de  input  de  tipo  radio"':
+                    copiaTok.pop(0)
+                    
+                    if copiaTok[0].lexema==',':
+                        copiaTok.pop(0)
+                        #self.opOption()
+                elif copiaTok[0].lexema == '"grupo-option"' or copiaTok[0].lexema == '"select  con  respectivos  option"':
+                    copiaTok.pop(0)
+                    for i in copiaTok:
+                             print(i.lexema, '\n')
+                    if copiaTok[0].lexema==',':                        
+                        copiaTok.pop(0)
+                        self.opOption(copiaTok)
+                elif copiaTok[0].lexema == '"boton"' or copiaTok[0].lexema == '"button"':
+                    copiaTok.pop(0)
+                    if copiaTok[0].lexema==',':
+                        copiaTok.pop(0)  
+                if copiaTok[0].lexema == '>':
+                    copiaTok.pop(0)
+                    if copiaTok[0].lexema==',':
+                        copiaTok.pop(0)
+                        self.estadoRecursivo()
+                    elif copiaTok[0].lexema == ']':
+                        print("Terminado")
+                            
+                        
+                
+    def opEtiqueta(self):
+        if copiaTok[0].lexema =='valor':
+            copiaTok.pop(0)
+            if copiaTok[0].tipo =='instruccion':
+                copiaTok.pop(0)
+                
+    def opOption(self,copiaTok):
+        
+        if copiaTok[0].lexema =='nombre':
+            copiaTok.pop(0)
+            if copiaTok[0].tipo =='instruccion':
+                copiaTok.pop(0)
+                if copiaTok[0].lexema==',':
+                    copiaTok.pop(0)
+                    if copiaTok[0].lexema=='valores':
+                        copiaTok.pop(0)
+                        if copiaTok[0].tipo =='grupo':
+                            copiaTok.pop(0)
+                    
+                    
+        
+
+formularioinicio="""
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>Formulario LFP</title>
+  <link rel="stylesheet" href="./style.css">
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<div class="container">  
+  <form id="contact" action="" method="post">
+  <h3>Formulario</h3>
+"""
+
+formularioFinal="""
+</form>
+</div>
+</body>
+</html>
+
+"""
+       
+       
+    
+                    
+                    
+            
+        
+        
+        
+        
