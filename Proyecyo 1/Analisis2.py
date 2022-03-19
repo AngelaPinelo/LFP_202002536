@@ -215,6 +215,7 @@ class Analizador2():
         
     #Pseudo Ananlizador Sintáctico
     def creacionFormulario(self):
+        global copiaTok
         copiaTok=copy.deepcopy(self.listaTokens)
         contador=0
         for a in copiaTok:
@@ -241,49 +242,39 @@ class Analizador2():
                         if copiaTok[0].lexema == '[':
                             copiaTok.pop(0)   
                              
-                            self.estadoRecursivo(copiaTok)
+                            self.estadoRecursivo()
                             
-    def estadoRecursivo(self,copiaTok):
-        #for i in copiaTok:
-           # print(i.lexema)
+    def estadoRecursivo(self):
         
         if copiaTok[0].lexema == '<':
             copiaTok.pop(0) 
             if copiaTok[0].lexema == 'tipo':
                 copiaTok.pop(0)
-                #print('********************')
-                #for i in copiaTok:
-                 #   print(i.lexema)
-                if copiaTok[0].lexema == '"etiqueta"'or  copiaTok[0].lexema == '"label"':
+                if copiaTok[0].lexema == 'etiqueta'or  copiaTok[0].lexema == 'label':
                     copiaTok.pop(0)
-                   
-                    if copiaTok[0].lexema==',':
+                    if copiaTok[0].lexema==',':                    
                         copiaTok.pop(0)
-                        
-                        #self.opEtiqueta()
-                elif copiaTok[0].lexema == '"texto"' or copiaTok[0].lexema == '"input"':
-                    copiaTok.pop(0)
-                   
+                        self.opEtiqueta(copiaTok)
+                elif copiaTok[0].lexema == 'texto' or copiaTok[0].lexema == 'input':
+                    copiaTok.pop(0)                   
                     if copiaTok[0].lexema==',':
                         copiaTok.pop(0)  
-                        #self.opinput()                
-                elif copiaTok[0].lexema == '"grupo-radio"' or copiaTok[0].lexema == '"grupo de  input  de  tipo  radio"':
-                    copiaTok.pop(0)
-                    
+                        self.opInput()                
+                elif copiaTok[0].lexema == 'grupo-radio' or copiaTok[0].lexema == 'grupo de  input  de  tipo  radio':
+                    copiaTok.pop(0)                    
                     if copiaTok[0].lexema==',':
                         copiaTok.pop(0)
-                        #self.opOption()
+                        self.opRadio()
                 elif copiaTok[0].lexema == 'grupo-option' or copiaTok[0].lexema == 'select  con  respectivos  option':
                     copiaTok.pop(0)
-                    #for i in copiaTok:
-                     #   print(i.lexema, '\n')
                     if copiaTok[0].lexema==',':                        
                         copiaTok.pop(0)
                         self.opOption(copiaTok)
-                elif copiaTok[0].lexema == '"boton"' or copiaTok[0].lexema == '"button"':
+                elif copiaTok[0].lexema == 'boton' or copiaTok[0].lexema == 'button':
                     copiaTok.pop(0)
                     if copiaTok[0].lexema==',':
                         copiaTok.pop(0)  
+                        self.opBoton()
                 if copiaTok[0].lexema == '>':
                     copiaTok.pop(0)
                     if copiaTok[0].lexema==',':
@@ -294,12 +285,78 @@ class Analizador2():
                             
                         
                 
-    def opEtiqueta(self):
+    def opEtiqueta(self,copiaTok):
+        '''<fieldset>
+      <label for ="nombre">Nombre:</label>
+      <input placeholder="Ingresa tu nombre" type="text" tabindex="1" required autofocus>
+    </fieldset>'''
+        
+        global formularioIntermedio
+        formularioIntermedio += """ 
+        <fieldset>
+        <label for ="nombre">       
+        """
         if copiaTok[0].lexema =='valor':
             copiaTok.pop(0)
-            if copiaTok[0].tipo =='instruccion':
+            if copiaTok[0].tipo =='Instrucción':
+                #for i in copiaTok:
+                 #   print(i.lexema)
+                formularioIntermedio+= copiaTok[0].lexema + "\n" +"</label></fieldset> \n" 
                 copiaTok.pop(0)
-                
+
+    def opInput(self):
+        '''<fieldset>
+      <label for ="nombre">Nombre:</label>
+      <input placeholder="Ingresa tu nombre" type="text" tabindex="1" required autofocus>
+    </fieldset>'''
+        
+        global formularioIntermedio
+        formularioIntermedio += """ 
+        <fieldset>
+        <input placeholder="     
+        """
+        if copiaTok[0].lexema =='fondo':
+            copiaTok.pop(0)
+            if copiaTok[0].tipo =='Instrucción':            
+                formularioIntermedio+= copiaTok[0].lexema + "\n" +'" type="text" tabindex="1" required autofocus></fieldset> \n'
+                copiaTok.pop(0)                
+    
+    def opRadio(self):
+        '''<fieldset>
+      <label for ="nombre">Sexo:</label><br>
+      <INPUT type="radio" name="sexo" value="Varón"> Varón<BR>
+      <INPUT type="radio" name="sexo" value="Mujer"> Mujer<BR>
+    </fieldset>'''
+        global formularioIntermedio
+        formularioIntermedio += """ 
+        <fieldset>
+        <label for ="nombre">       
+        """
+        if copiaTok[0].lexema =='nombre':
+            copiaTok.pop(0)
+            if copiaTok[0].tipo =='Instrucción':
+                formularioIntermedio+= copiaTok[0].lexema + "\n" +"</label><br> \n" 
+                copiaTok.pop(0)
+                if copiaTok[0].lexema==',':
+                    copiaTok.pop(0)
+                    if copiaTok[0].lexema=='valores':
+                        copiaTok.pop(0)
+                        if copiaTok[0].lexema =='[':
+                            copiaTok.pop(0)
+                            validacion=True
+                            while validacion:                                
+                                if copiaTok[0].tipo =='Grupo':
+                                    formularioIntermedio+= '<INPUT type="radio" name="sexo" value="Varón">'+ copiaTok[0].lexema+'<BR> \n'
+                                    copiaTok.pop(0)
+                                    if copiaTok[0].lexema ==',':
+                                        copiaTok.pop(0)
+                                    else: 
+                                        validacion=False 
+                            if copiaTok[0].lexema ==']':
+                                formularioIntermedio+="""
+                                      </fieldset>"""
+                                copiaTok.pop(0)                                
+                                pass               
     def opOption(self,copiaTok):
         '''<fieldset>
       <p>
@@ -346,12 +403,25 @@ class Analizador2():
                                         validacion=False 
                             if copiaTok[0].lexema ==']':
                                 formularioIntermedio+="""</select>
-      
-                                                    </p>
-                                                    </fieldset>"""
+                                      </fieldset>"""
                                 copiaTok.pop(0)                                
                                 pass
-                            
+
+    def opBoton(self):
+        '''<fieldset>
+      <button name="submit" type="submit" id="contact-submit" data-submit="...Sending">Valor</button>
+    </fieldset>'''
+        
+        global formularioIntermedio
+        formularioIntermedio += """ 
+        <fieldset>
+      <button name="submit" type="submit" id="contact-submit" data-submit="...Sending">     
+        """
+        if copiaTok[0].lexema =='valor':
+            copiaTok.pop(0)
+            if copiaTok[0].tipo =='Instrucción':
+                formularioIntermedio+= copiaTok[0].lexema + "\n" +"</button></fieldset> \n" 
+                copiaTok.pop(0)
     def reporteTokens(self):
         x = PrettyTable()
         x.field_names = ["Lexema", "Token", "Fila", "Columna"]

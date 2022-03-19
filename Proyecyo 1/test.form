@@ -1,9 +1,26 @@
 formulario ~>> [
 &
 <
+tipo:"etiqueta",
+valor:"Hola"
+>,
+<
+tipo:"texto",
+fondo:"Ingresa tu saludo"
+>,
+<
+tipo:"grupo-radio",
+nombre:"sexo",
+valores: ['Masculino','Femenino']
+>,
+<
 tipo:"grupo-option",
 nombre:"pais",
 valores: ['Guatemala','Honduras','Nicaragua']
+>,
+<
+tipo:"boton",
+valor:"Enviar"
 >
 ]
 
