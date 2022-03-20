@@ -12,7 +12,7 @@ fondo: "Ingrese nombre:"
 >,
 <
 tipo:"grupo-radio",
-valor:"sexo",
+nombre:"sexo",
 valores: ['Masculino','Femenino']
 >,
 <

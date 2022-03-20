@@ -434,19 +434,39 @@ class Analizador2():
     </fieldset>'''
         
         global formularioIntermedio
-        formularioIntermedio += """ 
-        <fieldset>
-      <button name="submit" type="submit" id="contact-submit" data-submit="...Sending">     
-        """
+        
         if copiaTok[0].lexema =='valor':
             copiaTok.pop(0)
             if copiaTok[0].tipo =='Instrucción':
-                formularioIntermedio+= copiaTok[0].lexema + "\n" +"</button></fieldset> \n" 
-                copiaTok.pop(0)
-                if copiaTok[0].lexema == ',':
-                    copiaTok.pop(0)
-                    if copiaTok[0].lexema == 'evento':
-                        copiaTok.pop(0)
+                print('Hola')
+                #formularioIntermedio+=  
+                #copiaTok.pop(0)
+                if copiaTok[1].lexema == ',':
+                    copiaTok.pop(1)
+                    if copiaTok[1].lexema == 'evento':
+                        copiaTok.pop(1)
+                        if copiaTok[1].lexema == 'entrada':
+                            formularioIntermedio += """ 
+                            <fieldset>
+                            
+                            <button name="submit" type="submit" id="contact-submit" data-submit="...Sending" >     
+                            """
+                            formularioIntermedio+= copiaTok[0].lexema + "\n" +"</button></fieldset> \n" 
+                            formularioIntermedio += """ 
+                            <fieldset>
+                            <div class="container"> 
+                            <iframe class="responsive-iframe" src="https://www.youtube.com/embed/tgbNymZ7vqY"></iframe>
+                            </div>   
+                                """
+                        elif copiaTok[1].lexema != 'entrada':
+                            formularioIntermedio += """ 
+                            <fieldset>
+                            
+                            <button name="submit" type="submit" id="contact-submit" data-submit="...Sending" >     
+                            """
+                            formularioIntermedio+= copiaTok[0].lexema + "\n" +"</button></fieldset> \n" 
+                            copiaTok.pop(1)
+                            copiaTok.pop(0)
                 
     def reporteTokens(self):
         x = PrettyTable()

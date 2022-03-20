@@ -3,7 +3,7 @@ from tkinter import filedialog
 from tkinter.filedialog import askopenfilename
 from tkinter.filedialog import asksaveasfile
 from tkinter import messagebox
-from Analisis import Analizador
+
 from Analisis2 import Analizador2
 import sys
 
@@ -28,7 +28,7 @@ def modifica_texto():
 
 root=Tk()
 root.title("Creador de Formularios")
-root.iconbitmap("./corazon.ico")
+#root.iconbitmap("./corazon.ico")
 root.config(bg="sky blue")
 
 miFrame=Frame(root, width=500, height=400)
