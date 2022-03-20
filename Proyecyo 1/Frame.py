@@ -28,7 +28,7 @@ def modifica_texto():
 
 root=Tk()
 root.title("Creador de Formularios")
-root.iconbitmap("corazon.ico")
+root.iconbitmap("./corazon.ico")
 root.config(bg="sky blue")
 
 miFrame=Frame(root, width=500, height=400)
