@@ -23,7 +23,7 @@ valores: ['Guatemala','Honduras','Nicaragua']
 <
 tipo:"boton",
 valor:"Valor",
-evento: "evento"
+evento: "even"
 >
 ]
 
