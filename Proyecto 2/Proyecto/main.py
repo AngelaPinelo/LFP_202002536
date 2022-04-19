@@ -117,7 +117,11 @@ class GUI:
                              font = "Helvetica 14",
                              padx = 5,
                              pady = 5)
-         
+        
+        msgBienvenida = ("Botcito: Hola, bienvenido a La Liga Bot \n puedes escribir el comando que necesites, \n recuerda que puedes encontrar los comandos dando click en\n el boton de Manual de usuario")
+        self.textCons.insert(END, msgBienvenida+ "\n\n")
+        
+        
         self.textCons.place(relheight = 0.745,
                             relwidth = 1,
                             rely = 0.08)
@@ -301,10 +305,23 @@ class GUI:
     def sendMessage(self):
         self.textCons.config(state=DISABLED)
         while True:
+            global message
             message = (f"{self.name}: {self.msg}")
             self.textCons.config(state = NORMAL)
-            self.textCons.insert(END, message+ "\n\n")   
+            self.textCons.insert(END, message+ "\n\n")  
+            if message == (f"{self.name}: Hola"):
+                 self.FuncionPrueba()
+            elif message == (f"{self.name}: Adios"):
+                 respuesta = 'Adiós'
+                 self.textCons.config(state = NORMAL)
+                 self.textCons.insert(END, respuesta+ "\n\n")
+            
             break   
+    
+    def FuncionPrueba(self):
+        respuesta = 'holaaaaaaaaa'
+        self.textCons.config(state = NORMAL)
+        self.textCons.insert(END, respuesta+ "\n\n")
  
 # create a GUI class object
 g = GUI()
