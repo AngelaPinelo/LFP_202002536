@@ -29,6 +29,7 @@ class Analizador():
         
         
     def AnalisisLexico(self,cadena):
+        
         estado = 0
         option = True
         for caracter in cadena:            
@@ -38,7 +39,8 @@ class Analizador():
                 if estado == 0:
                     option=False
                     if caracter.isupper():                        
-                        self.buffer+=caracter                                               
+                        self.buffer+=caracter   
+                        print(self.buffer)                                            
                         estado= 1
                     elif caracter =='<':
                         self.buffer+=caracter                                           
@@ -74,58 +76,63 @@ class Analizador():
                         
                 elif estado == 1:
                     option=False
-                    if caracter.isalpha():
-                        self.buffer+= caracter                       
-                    elif caracter.isdigit():
-                        self.buffer+=caracter                       
-                    elif caracter== '_' or caracter=='!' or caracter == ' ' or caracter =='¿' or caracter =='?':
+                    if caracter.isupper():
                         self.buffer+=caracter
-                    if self.buffer == 'RESULTADO' :                       
-                        self.agregar_token(self.buffer, 'PR RESULTADO', self.linea, self.columna)
-                        estado=0
-                    elif self.buffer =='TEMPORADA':
-                        self.agregar_token(self.buffer, 'PR RESULTADO', self.linea, self.columna)
-                        estado=0
-                    elif self.buffer =='VS':
-                        self.agregar_token(self.buffer, 'PR RESULTADO', self.linea, self.columna)
-                        estado=0
-                    elif self.buffer =='JORNADA':
-                        self.agregar_token(self.buffer, 'PR RESULTADO', self.linea, self.columna)
-                        estado=0   
-                    elif self.buffer =='GOLES':
-                        self.agregar_token(self.buffer, 'PR RESULTADO', self.linea, self.columna)
-                        estado=0 
-                    elif self.buffer =='TOTAL':
-                        self.agregar_token(self.buffer, 'PR RESULTADO', self.linea, self.columna)
-                        estado=0   
-                    elif self.buffer =='LOCAL':
-                        self.agregar_token(self.buffer, 'PR RESULTADO', self.linea, self.columna)
-                        estado=0  
-                    elif self.buffer =='VISITANTE':
-                        self.agregar_token(self.buffer, 'PR RESULTADO', self.linea, self.columna)
-                        estado=0        
-                    elif self.buffer =='TABLA':
-                        self.agregar_token(self.buffer, 'PR RESULTADO', self.linea, self.columna)
-                        estado=0       
-                    elif self.buffer =='PARTIDOS':
-                        self.agregar_token(self.buffer, 'PR RESULTADO', self.linea, self.columna)
-                        estado=0       
-                    elif self.buffer =='TOP':
-                        self.agregar_token(self.buffer, 'PR RESULTADO', self.linea, self.columna)
-                        estado=0 
-                    elif self.buffer =='INFERIOR':
-                        self.agregar_token(self.buffer, 'PR RESULTADO', self.linea, self.columna)
-                        estado=0 
-                    elif self.buffer =='SUPERIOR':
-                        self.agregar_token(self.buffer, 'PR RESULTADO', self.linea, self.columna)
-                        estado=0 
-                    elif self.buffer =='ADIOS':
-                        self.agregar_token(self.buffer, 'PR RESULTADO', self.linea, self.columna)
-                        estado=0 
+                    #if caracter != '"':
+                    #if caracter.isalpha():
+                     #   self.buffer+= caracter                       
+                    #if caracter.isdigit():
+                     #   self.buffer+=caracter                       
+                    #elif caracter== '_' or caracter=='!' or caracter == ' ' or caracter =='¿' or caracter =='?':
+                     #   self.buffer+=caracter
+                        if self.buffer == 'RESULTADO':       
+                                            
+                            self.agregar_token(self.buffer, 'PR RESULTADO', self.linea, self.columna)
+                            estado=0
+                        elif self.buffer =='TEMPORADA':
+                            self.agregar_token(self.buffer, 'PR RESULTADO', self.linea, self.columna)
+                            estado=0
+                        elif self.buffer =='VS':
+                            self.agregar_token(self.buffer, 'PR RESULTADO', self.linea, self.columna)
+                            estado=0
+                        elif self.buffer =='JORNADA':
+                            self.agregar_token(self.buffer, 'PR RESULTADO', self.linea, self.columna)
+                            estado=0   
+                        elif self.buffer =='GOLES':
+                            self.agregar_token(self.buffer, 'PR RESULTADO', self.linea, self.columna)
+                            estado=0 
+                        elif self.buffer =='TOTAL':
+                            self.agregar_token(self.buffer, 'PR RESULTADO', self.linea, self.columna)
+                            estado=0   
+                        elif self.buffer =='LOCAL':
+                            self.agregar_token(self.buffer, 'PR RESULTADO', self.linea, self.columna)
+                            estado=0  
+                        elif self.buffer =='VISITANTE':
+                            self.agregar_token(self.buffer, 'PR RESULTADO', self.linea, self.columna)
+                            estado=0        
+                        elif self.buffer =='TABLA':
+                            self.agregar_token(self.buffer, 'PR RESULTADO', self.linea, self.columna)
+                            estado=0       
+                        elif self.buffer =='PARTIDOS':
+                            self.agregar_token(self.buffer, 'PR RESULTADO', self.linea, self.columna)
+                            estado=0       
+                        elif self.buffer =='TOP':
+                            self.agregar_token(self.buffer, 'PR RESULTADO', self.linea, self.columna)
+                            estado=0 
+                        elif self.buffer =='INFERIOR':
+                            self.agregar_token(self.buffer, 'PR RESULTADO', self.linea, self.columna)
+                            estado=0 
+                        elif self.buffer =='SUPERIOR':
+                            self.agregar_token(self.buffer, 'PR RESULTADO', self.linea, self.columna)
+                            estado=0 
+                        elif self.buffer =='ADIOS':
+                            self.agregar_token(self.buffer, 'PR RESULTADO', self.linea, self.columna)
+                            estado=0 
                     else: 
                         self.buffer += caracter
                         self.agregar_error(self.buffer,'Error Lexico',self.linea,self.columna)
-                        option=True
+                        #option=True
+                        estado = 0
                 
                 elif estado == 2:
                     option=False
@@ -194,10 +201,12 @@ class Analizador():
     #impTokens()
 
 def Pruebita():
-    g = Analizador()
-    cadena = 'RESULTADO"Real Madrid"VS"Villarreal"TEMPORADA<2019-2020>'
-    g.AnalisisLexico(cadena)
-    g.impTokens()
-    g.imprimirDatos()
+        g = Analizador()
+        cadena = 'RESULTADO"Real Madrid"VS"Villarreal"TEMPORADA<2019-2020>'
+        g.AnalisisLexico(cadena)
+        g.impTokens()
+        g.imprimirDatos()
+        g.impErrores()
+
 Pruebita()
             
