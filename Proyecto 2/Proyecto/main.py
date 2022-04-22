@@ -1,10 +1,9 @@
-import socket
 import threading
 from tkinter import *
 from tkinter import font
 from tkinter import ttk
- 
-
+from leyendo import *
+from leyendo import *
 FORMAT = "utf-8"
 
 class GUI:
@@ -77,9 +76,6 @@ class GUI:
         self.login.destroy()
         self.layout(name)
          
-        # the thread to receive messages
-        #rcv = threading.Thread(target=self.receive)
-        #rcv.start()
  
     # The main layout of the chat
     def layout(self,name):
@@ -318,10 +314,6 @@ class GUI:
             
             break   
     
-    def FuncionPrueba(self):
-        respuesta = 'holaaaaaaaaa'
-        self.textCons.config(state = NORMAL)
-        self.textCons.insert(END, respuesta+ "\n\n")
  
 # create a GUI class object
 g = GUI()
