@@ -2,7 +2,7 @@ from Token import Token
 from Token import Error
 from prettytable import PrettyTable
 
-print ('Hola')
+
 class Analizador():
     def __init__(self):
         self.listaTokens = []
@@ -188,8 +188,16 @@ class Analizador():
             for i in self.listaErrores:
                 x.add_row(i.enviarDataError())
             print(x)
+    
+    #cadena = 'RESULTADO"Real Madrid"VS"Villarreal"TEMPORADA <2019-2020>'
+    #AnalisisLexico(cadena)
+    #impTokens()
+
+def Pruebita():
+    g = Analizador()
+    cadena = 'RESULTADO"Real Madrid"VS"Villarreal"TEMPORADA<2019-2020>'
+    g.AnalisisLexico(cadena)
+    g.impTokens()
+    g.imprimirDatos()
+Pruebita()
             
-g = Analizador()
-g.AnalisisLexico('RESULTADO “Real Madrid” VS “Villarreal” TEMPORADA <2019-2020>')
-g.impTokens()
-print ('Hola')

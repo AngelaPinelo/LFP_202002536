@@ -2,8 +2,8 @@ import threading
 from tkinter import *
 from tkinter import font
 from tkinter import ttk
-from leyendo import *
-from leyendo import *
+from Analisis import Analizador
+from Proyecto.Analisis import Pruebita
 FORMAT = "utf-8"
 
 class GUI:
@@ -66,7 +66,7 @@ class GUI:
         self.go = Button(self.login,
                          text = "CONTINUAR",
                          font = "Helvetica 14 bold",
-                         command = lambda: self.goAhead(self.entryName.get()))
+                         command = lambda: Pruebita())
          
         self.go.place(relx = 0.3,
                       rely = 0.55)
@@ -313,7 +313,11 @@ class GUI:
                  self.textCons.insert(END, respuesta+ "\n\n")
             
             break   
+    def pruebita ():
+        a=Analizador()
+        texto ='RESULTADO"Real Madrid"VS"Villarreal"TEMPORADA<2019-2020>'
+        a.AnalisisLexico(texto)
+        a.imprimirDatos()
     
- 
 # create a GUI class object
 g = GUI()
