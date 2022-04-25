@@ -22,6 +22,9 @@ class Analizador():
     def agregar_token(self,caracter,token,linea,columna):
         self.listaTokens.append(Token(caracter,token,linea,columna))
         self.buffer = ''
+    
+    def agregar_jornada(self,caracter,token,linea,columna):
+        self.listaTokens.append(Token(caracter,token,linea,columna))
         
     def agregar_error(self,caracter,descripcion,linea,columna):
         self.listaErrores.append(Error( caracter, descripcion, linea, columna))
@@ -40,7 +43,7 @@ class Analizador():
                     option=False
                     if caracter.isupper():                        
                         self.buffer+=caracter   
-                        print(self.buffer)                                            
+                        #print(self.buffer)                                            
                         estado= 1
                     elif caracter =='<':
                         self.buffer+=caracter                                           
@@ -55,7 +58,8 @@ class Analizador():
                         estado= 3                   
                     elif caracter.isdigit():
                         self.buffer+= caracter                      
-                        self.agregar_token(self.buffer, 'numero jornada', self.linea, self.columna)
+                        self.agregar_jornada(self.buffer, 'jornada singular', self.linea, self.columna)
+                        estado = 5
                     elif caracter == '"':
                         self.buffer+= caracter                
                         self.agregar_token(self.buffer, 'Comilla Doble', self.linea, self.columna)
@@ -85,64 +89,75 @@ class Analizador():
                      #   self.buffer+=caracter                       
                     #elif caracter== '_' or caracter=='!' or caracter == ' ' or caracter =='¿' or caracter =='?':
                      #   self.buffer+=caracter
-                        if self.buffer == 'RESULTADO':       
-                                            
+                        if self.buffer == 'RESULTADO':                                                   
                             self.agregar_token(self.buffer, 'PR RESULTADO', self.linea, self.columna)
                             estado=0
                         elif self.buffer =='TEMPORADA':
-                            self.agregar_token(self.buffer, 'PR RESULTADO', self.linea, self.columna)
+                            self.agregar_token(self.buffer, 'PR TEMPORADA', self.linea, self.columna)
                             estado=0
                         elif self.buffer =='VS':
-                            self.agregar_token(self.buffer, 'PR RESULTADO', self.linea, self.columna)
+                            self.agregar_token(self.buffer, 'PR VS', self.linea, self.columna)
                             estado=0
                         elif self.buffer =='JORNADA':
-                            self.agregar_token(self.buffer, 'PR RESULTADO', self.linea, self.columna)
+                            self.agregar_token(self.buffer, 'PR JORNADA', self.linea, self.columna)
                             estado=0   
                         elif self.buffer =='GOLES':
-                            self.agregar_token(self.buffer, 'PR RESULTADO', self.linea, self.columna)
+                            self.agregar_token(self.buffer, 'PR GOLES', self.linea, self.columna)
                             estado=0 
                         elif self.buffer =='TOTAL':
-                            self.agregar_token(self.buffer, 'PR RESULTADO', self.linea, self.columna)
+                            self.agregar_token(self.buffer, 'PR TOTAL', self.linea, self.columna)
                             estado=0   
                         elif self.buffer =='LOCAL':
-                            self.agregar_token(self.buffer, 'PR RESULTADO', self.linea, self.columna)
+                            self.agregar_token(self.buffer, 'PR LOCAL', self.linea, self.columna)
                             estado=0  
                         elif self.buffer =='VISITANTE':
-                            self.agregar_token(self.buffer, 'PR RESULTADO', self.linea, self.columna)
+                            self.agregar_token(self.buffer, 'PR VISITANTE', self.linea, self.columna)
                             estado=0        
                         elif self.buffer =='TABLA':
-                            self.agregar_token(self.buffer, 'PR RESULTADO', self.linea, self.columna)
+                            self.agregar_token(self.buffer, 'PR TABLA', self.linea, self.columna)
                             estado=0       
                         elif self.buffer =='PARTIDOS':
-                            self.agregar_token(self.buffer, 'PR RESULTADO', self.linea, self.columna)
+                            self.agregar_token(self.buffer, 'PR PARTIDOS', self.linea, self.columna)
                             estado=0       
                         elif self.buffer =='TOP':
-                            self.agregar_token(self.buffer, 'PR RESULTADO', self.linea, self.columna)
+                            self.agregar_token(self.buffer, 'PR TOP', self.linea, self.columna)
                             estado=0 
                         elif self.buffer =='INFERIOR':
-                            self.agregar_token(self.buffer, 'PR RESULTADO', self.linea, self.columna)
+                            self.agregar_token(self.buffer, 'PR INFERIOR', self.linea, self.columna)
                             estado=0 
                         elif self.buffer =='SUPERIOR':
-                            self.agregar_token(self.buffer, 'PR RESULTADO', self.linea, self.columna)
+                            self.agregar_token(self.buffer, 'PR SUPERIOR', self.linea, self.columna)
                             estado=0 
                         elif self.buffer =='ADIOS':
-                            self.agregar_token(self.buffer, 'PR RESULTADO', self.linea, self.columna)
+                            self.agregar_token(self.buffer, 'PR ADIOS', self.linea, self.columna)
                             estado=0 
                     else: 
                         self.buffer += caracter
-                        self.agregar_error(self.buffer,'Error Lexico',self.linea,self.columna)
+                        self.agregar_error(self.buffer,'Error LexicoS',self.linea,self.columna)
                         #option=True
                         estado = 0
                 
                 elif estado == 2:
                     option=False
-                    if caracter!='<' or caracter != '>':                           
-                        if caracter.isdigit() or caracter == '-':  
-                            self.buffer+= caracter                      
-                            self.agregar_token(self.buffer, 'Años',self.linea, self.columna )                                
-                        else: 
+                    if caracter!='<':                           
+                        if caracter.isdigit() :  
+                            self.buffer+= caracter
+                            if len(self.buffer)== 4:                      
+                                self.agregar_token(self.buffer, 'Año 1',self.linea, self.columna )
+                                estado = 2
+                            elif len(self.buffer)>4:
+                                self.buffer += caracter
+                                self.agregar_error(self.buffer,'Error Lexico',self.linea,self.columna) 
+                                estado=0
+                        elif caracter =='-':
+                                self.buffer += caracter
+                                self.agregar_token(self.buffer, 'Guión',self.linea, self.columna )
+                                estado=2
+                                                    
+                                                          
+                        elif caracter == '>': 
                             self.buffer += caracter
-                            self.agregar_error(self.buffer,'Error Lexico',self.linea,self.columna)                        
+                            self.agregar_token(self.buffer,'Mayor que',self.linea,self.columna)                        
                             estado=0
                     else: 
                             self.buffer += caracter
@@ -176,6 +191,32 @@ class Analizador():
                         self.agregar_token('"', 'Comilla Doble',self.linea, self.columna )
                         estado=0
                         
+                elif estado == 5:
+                    option=False  
+                    
+                    #print (caracter)                  
+                    if caracter.isdigit():
+                        self.buffer+= caracter
+                        #print(self.buffer)
+                        if  len(self.buffer) == 2 :                            
+                            self.listaTokens.pop()                           
+                            self.agregar_token(self.buffer, 'numero jornada', self.linea, self.columna)                             
+                            estado=5   
+                        else: 
+                            self.agregar_error(self.buffer,'jornada no válida',self.linea,self.columna)                        
+                            estado=0  
+                        '''elif caracter.isupper():
+                         self.agregar_token(self.buffer, 'numero jornada', self.linea, self.columna)
+                         estado =1 '''
+                    elif  caracter.isupper():
+                        self.buffer+= caracter
+                        #self.agregar_token(self.buffer, 'numero jornada', self.linea, self.columna) 
+                        estado=1 
+                    else:
+                        self.buffer+=caracter 
+                        self.agregar_error(self.buffer,'jornada no válida',self.linea,self.columna)                        
+                        estado=0
+                        
     
     def impTokens(self):
         print("TABLA TOKENS")
@@ -202,11 +243,11 @@ class Analizador():
 
 def Pruebita():
         g = Analizador()
-        cadena = 'RESULTADO"Real Madrid"VS"Villarreal"TEMPORADA<2019-2020>'
+        cadena = 'JORNADA888882TEMPORADA<2019-2020>'
         g.AnalisisLexico(cadena)
+        #g.AnalisisLexico(cadena)
         g.impTokens()
-        g.imprimirDatos()
+        #g.imprimirDatos()
         g.impErrores()
 
 Pruebita()
-            

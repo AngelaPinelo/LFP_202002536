@@ -66,7 +66,7 @@ class GUI:
         self.go = Button(self.login,
                          text = "CONTINUAR",
                          font = "Helvetica 14 bold",
-                         command = lambda: self.layout(self.entryName.get()))
+                         command = lambda: self.goAhead(self.entryName.get()))
          
         self.go.place(relx = 0.3,
                       rely = 0.55)
@@ -169,8 +169,7 @@ class GUI:
                                 font = "Helvetica 10 bold",
                                 width = 20,
                                 bg = "#CD41FB",
-                                command = lambda : self.sendButton(self.entryMsg.get()))
-         
+                                command = lambda : self.pruebita())
         self.buttonErr.place(relx = 0,
                              rely = 0.099,
                              relheight = 0.06,
@@ -305,18 +304,19 @@ class GUI:
             message = (f"{self.name}: {self.msg}")
             self.textCons.config(state = NORMAL)
             self.textCons.insert(END, message+ "\n\n")  
-            if message == (f"{self.name}: Hola"):
-                 self.FuncionPrueba()
+            cadena=self.msg
+            self.pruebita(cadena)
+            '''if message == (f"{self.name}: Hola"):
+                 self.pruebita()
             elif message == (f"{self.name}: Adios"):
                  respuesta = 'Adiós'
                  self.textCons.config(state = NORMAL)
-                 self.textCons.insert(END, respuesta+ "\n\n")
+                 self.textCons.insert(END, respuesta+ "\n\n")'''
             
             break   
-    def pruebita (self):
-        a=Analizador()
-        texto ='RESULTADO"Real Madrid"VS"Villarreal"TEMPORADA<2019-2020>'
-        a.AnalisisLexico(texto)
+    def pruebita (self,cadena):
+        a=Analizador()        
+        a.AnalisisLexico(cadena)
         a.imprimirDatos()
     
 # create a GUI class object
