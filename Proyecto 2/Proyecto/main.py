@@ -5,7 +5,7 @@ from tkinter import ttk
 from Analisis import Analizador
 
 FORMAT = "utf-8"
-
+a=Analizador()
 class GUI:
     # constructor method
     def __init__(self):
@@ -23,12 +23,12 @@ class GUI:
         self.login.configure(width = 400,
                              height = 300)
         #image label 
-        img= PhotoImage(file='laliga.png')
+        '''img= PhotoImage(file='.\Proyecto2\laliga.jpg')
         self.lbl_img= Label (self.login, image=img)
         self.lbl_img.place(relheight = 0.5,
                        relx = 0.18,
                        rely = 0.76)
-        self.lbl_img.pack()
+        self.lbl_img.pack()'''
         # create a Label
         self.pls = Label(self.login,
                        text = "Bienvenid@ a La Liga Bot",
@@ -198,7 +198,7 @@ class GUI:
                                 font = "Helvetica 10 bold",
                                 width = 20,
                                 bg = "#CD41FB",
-                                command = lambda : self.sendButton(self.entryMsg.get()))
+                                command = lambda : self.repTok(self.msg))
          
         self.Tokens.place(relx = 0.32,
                              rely = 0.099,
@@ -243,7 +243,7 @@ class GUI:
                                 font = "Helvetica 10 bold",
                                 width = 20,
                                 bg = "#CD41FB",
-                                command = lambda : self.sendButton(self.entryMsg.get()))
+                                command = lambda : self.sendButton(self.msg.get()))
          
         self.ManualTec.place(relx = 0.82,
                              rely = 0.099,
@@ -317,7 +317,12 @@ class GUI:
     def pruebita (self,cadena):
         a=Analizador()        
         a.AnalisisLexico(cadena)
+        
+    def repTok (self,cadena):
+        a.AnalisisLexico(cadena)
         a.imprimirDatos()
+        a.impTokens()
+        a.reporteTokens()
     
 # create a GUI class object
 g = GUI()
