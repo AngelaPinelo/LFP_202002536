@@ -5,8 +5,15 @@ class Leer():
             contenido = archivo.read()              
             return contenido
 
-
-    contenido2 = leer('LaLigaBot-LFP.csv')
+    
+    
+    
+    file = open("Manual usuario LFP P2.pdf",'r')
+        
+     
+    
+    
+    contenido2 = leer(r'LaLigaBot-LFP.csv')
     partidos = contenido2.split('\n')
 
     objPartidos = []
@@ -22,6 +29,12 @@ class Leer():
         'goles2': datos [6]
         }
         objPartidos.append(p)
-    print (objPartidos)
+    #print (objPartidos[2])
+    gg='jornada'
+    for partido in objPartidos:
+        if partido[gg] == '37':
+            if partido['equipo1']=='Valencia':
+                if partido['equipo2']=='Betis':
+                    print ('El Valencia anotó '+partido['goles1']+' Goles')
     
-   
+file = open("Manual usuario LFP P2.pdf",'r')

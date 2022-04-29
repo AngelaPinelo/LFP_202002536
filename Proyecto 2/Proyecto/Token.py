@@ -1,3 +1,4 @@
+
 class Token:
     def __init__ (self,lexema,tipo,linea,columna):
         self.lexema = lexema

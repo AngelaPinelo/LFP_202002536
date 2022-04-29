@@ -3,10 +3,16 @@ from tkinter import *
 from tkinter import font
 from tkinter import ttk
 from Analisis import Analizador
+import webbrowser
+from io import open
+import sys
 
 FORMAT = "utf-8"
 a=Analizador()
+
 class GUI:
+    #file = open("Manual usuario LFP P2.pdf",'r')
+    
     # constructor method
     def __init__(self):
        
@@ -21,14 +27,7 @@ class GUI:
         self.login.resizable(width = False,
                              height = False)
         self.login.configure(width = 400,
-                             height = 300)
-        #image label 
-        '''img= PhotoImage(file='.\Proyecto2\laliga.jpg')
-        self.lbl_img= Label (self.login, image=img)
-        self.lbl_img.place(relheight = 0.5,
-                       relx = 0.18,
-                       rely = 0.76)
-        self.lbl_img.pack()'''
+                             height = 300)       
         # create a Label
         self.pls = Label(self.login,
                        text = "Bienvenid@ a La Liga Bot",
@@ -128,10 +127,7 @@ class GUI:
          
         self.labelBottom.place(relheight = 0.745,relwidth = 1,
                                rely = 0.825)
-        
-        '''self.labelMenu = Label(self.Window,bg = "#EAECEE", padx=7, pady=7)
-        self.labelMenu.place(relwidth = 1 
-                               )'''
+                
         
         self.entryMsg = Entry(self.labelBottom,
                               bg = "#2C3E50",
@@ -165,11 +161,11 @@ class GUI:
         
         # create a  Button Errores
         self.buttonErr = Button(self.labelBottom,
-                                text = "Errores",
+                                text = "Reporte Errores",
                                 font = "Helvetica 10 bold",
                                 width = 20,
                                 bg = "#CD41FB",
-                                command = lambda : self.pruebita())
+                                command = lambda : self.repErr(self.msg))
         self.buttonErr.place(relx = 0,
                              rely = 0.099,
                              relheight = 0.06,
@@ -179,11 +175,11 @@ class GUI:
         
         #Limpiar log
         self.cleanLog = Button(self.labelBottom,
-                                text = "Limpiar",
+                                text = "Limpiar Errores",
                                 font = "Helvetica 10 bold",
                                 width = 20,
                                 bg = "#CD41FB",
-                                command = lambda : self.sendButton(self.entryMsg.get()))
+                                command = lambda : self.cleanErr())
          
         self.cleanLog.place(relx = 0.16,
                              rely = 0.099,
@@ -212,7 +208,7 @@ class GUI:
                                 font = "Helvetica 10 bold",
                                 width = 20,
                                 bg = "#CD41FB",
-                                command = lambda : self.sendButton(self.entryMsg.get()))
+                                command = lambda : self.cleanTok())
          
         self.cleanLogTok.place(relx = 0.48,
                              rely = 0.099,
@@ -227,7 +223,7 @@ class GUI:
                                 font = "Helvetica 10 bold",
                                 width = 20,
                                 bg = "#CD41FB",
-                                command = lambda : self.sendButton(self.entryMsg.get()))
+                                command = lambda : webbrowser.open('Manual usuario LFP P2.pdf'))
          
         self.ManualUser.place(relx = 0.64,
                              rely = 0.099,
@@ -243,7 +239,7 @@ class GUI:
                                 font = "Helvetica 10 bold",
                                 width = 20,
                                 bg = "#CD41FB",
-                                command = lambda : self.sendButton(self.msg.get()))
+                                command = lambda: webbrowser.open('Manuel Técnico LFP Proyecto2.pdf'))
          
         self.ManualTec.place(relx = 0.82,
                              rely = 0.099,
@@ -273,28 +269,7 @@ class GUI:
         snd= threading.Thread(target = self.sendMessage)
         snd.start()
  
-    # function to receive messages
-    '''def receive(self):
-        while True:
-            try:
-                message = 'NAME'
-                 
-                # if the messages from the server is NAME send the client's name
-                if message == 'NAME':
-                    self.send(self.name.encode(FORMAT))
-                else:
-                    # insert messages to text box
-                    self.textCons.config(state = NORMAL)
-                    self.textCons.insert(END,
-                                         message+"\n\n")
-                     
-                    self.textCons.config(state = DISABLED)
-                    self.textCons.see(END)
-            except:
-                # an error will be printed on the command line or console if there's an error
-                print("An error occured!")
-                
-                break'''
+    
          
     # function to send messages
     def sendMessage(self):
@@ -305,24 +280,49 @@ class GUI:
             self.textCons.config(state = NORMAL)
             self.textCons.insert(END, message+ "\n\n")  
             cadena=self.msg
-            self.pruebita(cadena)
-            '''if message == (f"{self.name}: Hola"):
-                 self.pruebita()
-            elif message == (f"{self.name}: Adios"):
-                 respuesta = 'Adiós'
-                 self.textCons.config(state = NORMAL)
-                 self.textCons.insert(END, respuesta+ "\n\n")'''
+            #self.pruebita(cadena)
+            #self.textCons.insert(END,)
+            if message == (f"{self.name}: ADIOS"):
+                respuesta = 'Botcito: Adiós'
+                self.textCons.config(state = NORMAL)
+                self.textCons.insert(END, respuesta+ "\n\n")
+                self.salir()
+            else:
+                 self.pruebita(self.msg)                 
             
             break   
-    def pruebita (self,cadena):
-        a=Analizador()        
+
+    def pruebita (self,cadena):              
         a.AnalisisLexico(cadena)
-        
+        a.AnalizadorSintactico()
+        print(a.resultado)
+        self.textCons.insert(END,a.resultado+ "\n\n")
+
     def repTok (self,cadena):
-        a.AnalisisLexico(cadena)
-        a.imprimirDatos()
-        a.impTokens()
+        #a.AnalisisLexico(cadena)
+        #a.imprimirDatos()
+        #a.impTokens()
         a.reporteTokens()
+
+    def repErr (self,cadena):
+        #a.AnalisisLexico(cadena)
+        #a.imprimirDatos()
+        #a.impErrores()
+        a.reporteErrores()
+
+    def cleanTok(self):
+        a.listaTokens =[]
     
-# create a GUI class object
+    def cleanErr(self):
+        a.listaErrores=[]
+
+    def salir(self):
+        self.Window.destroy()
+    def ManualUser(self):
+        webbrowser.open('Manual usuario LFP P2.pdf')
+    def ManualTec(self):
+        webbrowser.open('Manuel Técnico LFP Proyecto2.pdf')
+    
+
+
 g = GUI()
